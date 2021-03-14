@@ -6,6 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.example.android_app.databinding.ActivityMainBinding
+import com.example.android_app.page_department.DepartmentFragment
+import com.example.android_app.page_events.EventsFragment
+import com.example.android_app.page_messages.MessagesFragment
+import com.example.android_app.page_timeline.TimelineFragment
 
 class BottomNavMediator(
     private val binding: ActivityMainBinding,

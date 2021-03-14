@@ -15,13 +15,13 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="4:3"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardBackgroundColor="@color/grey_300">
 
             <ImageView
                 android:id="@+id/event_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/grey_300" />
+                android:layout_height="match_parent" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_marginHorizontal="@dimen/item_body_margin"
             android:layout_marginTop="@dimen/item_body_margin"
             android:text="Nazwa wydarzenia, która może mieć więcej niż jedną linijkę"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textAppearance="@style/TextAppearance.App.Title"
             app:layout_constraintTop_toBottomOf="@id/event_image_card" />
 
         <TextView

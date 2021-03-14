@@ -1,4 +1,4 @@
-package com.example.android_app
+package com.example.android_app.page_department
 
 import androidx.fragment.app.Fragment
 
