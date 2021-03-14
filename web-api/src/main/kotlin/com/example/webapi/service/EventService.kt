@@ -22,19 +22,19 @@ class EventService {
         numOfImages = NUM_OF_EVENTS,
         imageWidth = IMAGE_LONGER_EDGE,
         imageHeight = IMAGE_SHORTER_EDGE,
-        offset = 0
     )
 
     private val galleryImages = generateImages(
         numOfImages = NUM_OF_EVENTS * GALLERY_SIZE,
         imageWidth = IMAGE_SHORTER_EDGE,
         imageHeight = IMAGE_LONGER_EDGE,
-        offset = NUM_OF_EVENTS + 1
     )
 
     private val events = generateEvents()
 
-    fun getAll() = events
+    fun getPage(pageNumber: Int, pageSize: Int): List<Event> {
+        return events.chunked(pageSize)[pageNumber - 1]
+    }
 
     private fun generateEvents(): List<Event> {
         return (1..NUM_OF_EVENTS).map { eventId ->
@@ -53,11 +53,10 @@ class EventService {
     private fun generateImages(
         numOfImages: Int,
         imageWidth: Int,
-        imageHeight: Int,
-        offset: Int
+        imageHeight: Int
     ): MutableList<String> {
-        return (1..numOfImages).map { imageIdx ->
-            val id = imageIdx + offset + 100
+        return (1..numOfImages).map {
+            val id = (1..1_080).random()
             "https://picsum.photos/id/$id/$imageWidth/$imageHeight"
         }.toMutableList()
     }
