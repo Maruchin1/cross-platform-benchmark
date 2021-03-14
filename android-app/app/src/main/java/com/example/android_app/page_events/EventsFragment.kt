@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
-import androidx.recyclerview.widget.RecyclerView
-import com.example.android_app.Repository
+import com.example.android_app.DI
 import com.example.android_app.databinding.FragmentEventsBinding
-import com.example.android_app.model.Event
 
 class EventsFragment : Fragment() {
 
+    private val repository by lazy { DI.repository }
     private val eventsAdapter by lazy { EventsAdapter() }
 
     private var binding: FragmentEventsBinding? = null
@@ -38,7 +37,7 @@ class EventsFragment : Fragment() {
 
     private fun setupEventsList() {
         binding?.eventsList?.adapter = eventsAdapter
-        Repository.getAllEvents().asLiveData().observe(viewLifecycleOwner) {
+        repository.getAllEvents().asLiveData().observe(viewLifecycleOwner) {
             eventsAdapter.updateEvents(it)
         }
     }
