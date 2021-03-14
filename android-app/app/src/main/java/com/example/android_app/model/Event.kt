@@ -17,5 +17,14 @@ data class Event(
     val name: String,
 
     @ColumnInfo(name = "date")
-    val date: String
+    val date: String,
+
+    @ColumnInfo(name = "place")
+    val place: String,
+
+    @ColumnInfo(name = "description")
+    val description: String,
+
+    @ColumnInfo(name = "gallery_images_urls")
+    val galleryImagesUrls: List<String>
 )

@@ -29,7 +29,7 @@ object DI {
             context.get()!!,
             LocalDatabase::class.java,
             "local-database"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     private val localDatabaseDao: LocalDatabaseDao by lazy {

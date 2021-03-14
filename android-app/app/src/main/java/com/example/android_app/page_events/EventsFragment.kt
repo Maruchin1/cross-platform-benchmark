@@ -12,9 +12,9 @@ import com.example.android_app.databinding.FragmentEventsBinding
 class EventsFragment : Fragment() {
 
     private val repository by lazy { DI.repository }
-    private val eventsAdapter by lazy { EventsAdapter() }
 
     private var binding: FragmentEventsBinding? = null
+    private var eventsAdapter: EventsAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,10 +35,11 @@ class EventsFragment : Fragment() {
         binding = null
     }
 
-    private fun setupEventsList() {
-        binding?.eventsList?.adapter = eventsAdapter
-        repository.getAllEvents().asLiveData().observe(viewLifecycleOwner) {
-            eventsAdapter.updateEvents(it)
+    private fun setupEventsList() = binding?.let {
+        eventsAdapter = EventsAdapter(it)
+        it.eventsList.adapter = eventsAdapter
+        repository.getAllEvents().asLiveData().observe(viewLifecycleOwner) { events ->
+            eventsAdapter?.updateEvents(events)
         }
     }
 

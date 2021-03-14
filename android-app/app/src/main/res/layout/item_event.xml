@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/item_horizontal_margin"
-    android:layout_marginBottom="@dimen/item_bottom_margin">
+    android:layout_marginBottom="@dimen/item_bottom_margin"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?selectableItemBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,9 +18,9 @@
             android:id="@+id/event_image_card"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:cardBackgroundColor="@color/grey_300"
             app:layout_constraintDimensionRatio="4:3"
-            app:layout_constraintTop_toTopOf="parent"
-            app:cardBackgroundColor="@color/grey_300">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/event_image"

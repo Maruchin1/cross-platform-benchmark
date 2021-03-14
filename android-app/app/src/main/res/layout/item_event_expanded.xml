@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/event_image"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/grey_300"
+        app:layout_constraintDimensionRatio="4:3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/close_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_baseline_close_24"
+        android:tint="@color/text_primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/action_add_to_calendar"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_to_calendar"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="@color/text_primary"
+        app:layout_constraintBottom_toBottomOf="@id/event_image"
+        app:layout_constraintEnd_toEndOf="@id/event_image" />
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="16dp"
+        android:background="@color/grey_400"
+        app:layout_constraintBottom_toBottomOf="@id/action_add_to_calendar"
+        app:layout_constraintEnd_toStartOf="@id/action_add_to_calendar"
+        app:layout_constraintTop_toTopOf="@id/action_add_to_calendar" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/share"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="@color/text_primary"
+        app:layout_constraintBottom_toBottomOf="@id/action_add_to_calendar"
+        app:layout_constraintEnd_toStartOf="@id/action_add_to_calendar"
+        app:layout_constraintTop_toTopOf="@id/action_add_to_calendar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/grey_400"
+        app:layout_constraintBottom_toBottomOf="@id/event_image"
+        app:layout_constraintTop_toBottomOf="@id/event_image" />
+
+    <TextView
+        android:id="@+id/event_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="24dp"
+        android:text="Nazwa wydarzenia, która może mieć więcej niż jedną linię"
+        android:textAppearance="@style/TextAppearance.App.Title"
+        app:layout_constraintTop_toBottomOf="@id/event_image" />
+
+    <TextView
+        android:id="@+id/event_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="8dp"
+        android:text="2021.01.21"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="@color/text_primary"
+        app:layout_constraintTop_toBottomOf="@id/event_name" />
+
+    <TextView
+        android:id="@+id/event_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="8dp"
+        android:text="Miejsce: Galeria błękitna Wrocław"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="@color/text_primary"
+        app:layout_constraintTop_toBottomOf="@id/event_date" />
+
+    <TextView
+        android:id="@+id/event_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
+        android:text="Lorem ipsum"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textColor="@color/text_primary"
+        app:layout_constraintTop_toBottomOf="@id/event_place" />
+
+    <TextView
+        android:id="@+id/label_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="24dp"
+        android:text="Galeria"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="@color/text_primary"
+        app:layout_constraintTop_toBottomOf="@id/event_description" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/event_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/label_gallery"
+        tools:listitem="@layout/item_gallery_image" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

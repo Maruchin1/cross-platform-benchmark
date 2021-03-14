@@ -6,17 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.core.widget.NestedScrollView
+    <FrameLayout
+        android:id="@+id/fragments_frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/nav_bar"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <FrameLayout
-            android:id="@+id/fragments_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </androidx.core.widget.NestedScrollView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="match_parent"
@@ -33,38 +28,78 @@
         android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
+        <FrameLayout
             android:id="@+id/nav_events"
-            style="@style/Widget.App.BottomNavText"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/events"
-            android:textStyle="bold" />
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
 
-        <TextView
+            <TextView
+                android:id="@+id/nav_events_text"
+                style="@style/Widget.App.BottomNavText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/events"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/nav_messages"
-            style="@style/Widget.App.BottomNavText"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/messages" />
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
 
-        <TextView
+            <TextView
+                android:id="@+id/nav_messages_text"
+                style="@style/Widget.App.BottomNavText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/messages" />
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/nav_department"
-            style="@style/Widget.App.BottomNavText"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/department" />
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
 
-        <TextView
+            <TextView
+                android:id="@+id/nav_department_text"
+                style="@style/Widget.App.BottomNavText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/department" />
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/nav_timeline"
-            style="@style/Widget.App.BottomNavText"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/twenty_fifth_anniversary" />
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/nav_timeline_text"
+                style="@style/Widget.App.BottomNavText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/twenty_fifth_anniversary" />
+        </FrameLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

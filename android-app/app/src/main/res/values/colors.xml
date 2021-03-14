@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="transparent">@android:color/transparent</color>
     <color name="grey_300">#e0e0e0</color>
     <color name="grey_400">#bdbdbd</color>
 

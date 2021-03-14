@@ -42,8 +42,8 @@ class BottomNavMediator(
     }
 
     private fun changeSelectedItem(newPage: Page) {
-        currentPage.getNavItem().setUnselected()
-        newPage.getNavItem().setSelected()
+        currentPage.getNavItemText().setUnselected()
+        newPage.getNavItemText().setSelected()
     }
 
     private fun changeDisplayedPage(newPage: Page) {
@@ -53,12 +53,12 @@ class BottomNavMediator(
         }
     }
 
-    private fun Page.getNavItem(): TextView {
+    private fun Page.getNavItemText(): TextView {
         return when (this) {
-            Page.EVENTS -> binding.navEvents
-            Page.MESSAGES -> binding.navMessages
-            Page.DEPARTMENT -> binding.navDepartment
-            Page.TIMELINE -> binding.navTimeline
+            Page.EVENTS -> binding.navEventsText
+            Page.MESSAGES -> binding.navMessagesText
+            Page.DEPARTMENT -> binding.navDepartmentText
+            Page.TIMELINE -> binding.navTimelineText
         }
     }
 
