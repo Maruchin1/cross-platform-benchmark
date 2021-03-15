@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test-junit"))
-
+    testImplementation("com.github.appium:java-client:7.5.0")
 }
 
 tasks.test {
