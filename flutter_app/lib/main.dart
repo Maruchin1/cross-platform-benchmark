@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/repository/repository.dart';
-
-import 'home_page.dart';
+import 'main_container.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,9 +27,7 @@ class MyApp extends StatelessWidget {
           primaryColorDark: Colors.grey.shade400,
           primarySwatch: Colors.blue,
           backgroundColor: Colors.grey.shade50),
-      home: Repository(
-        child: HomePage(),
-      ),
+      home: MainContainer(),
     );
   }
 }

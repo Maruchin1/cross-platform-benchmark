@@ -1,30 +1,69 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_app/model/event.dart';
 
-class Repository extends InheritedWidget {
-  Repository({@required Widget child}) : super(child: child);
-
+class Repository {
   final List<Event> eventsList = [
-    new Event(1, "", "Test 1", "2021.01.23", "Miejsce", "Opis", []),
-    new Event(1, "", "Test 1", "2021.01.23", "Miejsce", "Opis", []),
-    new Event(1, "", "Test 1", "2021.01.23", "Miejsce", "Opis", []),
-    new Event(1, "", "Test 1", "2021.01.23", "Miejsce", "Opis", []),
-    new Event(1, "", "Test 1", "2021.01.23", "Miejsce", "Opis", []),
-    new Event(1, "", "Test 1", "2021.01.23", "Miejsce", "Opis", []),
-    new Event(1, "", "Test 1", "2021.01.23", "Miejsce", "Opis", []),
-    new Event(1, "", "Test 1", "2021.01.23", "Miejsce", "Opis", []),
-    new Event(1, "", "Test 1", "2021.01.23", "Miejsce", "Opis", []),
+    new Event(1, "https://picsum.photos/800/600", "Test 1", "2021.01.23",
+        "Miejsce", "Opis", [
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+    ]),
+    new Event(1, "https://picsum.photos/800/600", "Test 1", "2021.01.23",
+        "Miejsce", "Opis", [
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+    ]),
+    new Event(1, "https://picsum.photos/800/600", "Test 1", "2021.01.23",
+        "Miejsce", "Opis", [
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+    ]),
+    new Event(1, "https://picsum.photos/800/600", "Test 1", "2021.01.23",
+        "Miejsce", "Opis", [
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+    ]),
+    new Event(1, "https://picsum.photos/800/600", "Test 1", "2021.01.23",
+        "Miejsce", "Opis", [
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+    ]),
+    new Event(1, "https://picsum.photos/800/600", "Test 1", "2021.01.23",
+        "Miejsce", "Opis", [
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+    ]),
+    new Event(1, "https://picsum.photos/800/600", "Test 1", "2021.01.23",
+        "Miejsce", "Opis", [
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+    ]),
+    new Event(1, "https://picsum.photos/800/600", "Test 1", "2021.01.23",
+        "Miejsce", "Opis", [
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+    ]),
+    new Event(1, "https://picsum.photos/800/600", "Test 1", "2021.01.23",
+        "Miejsce", "Opis", [
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+      "https://picsum.photos/600/800",
+    ]),
   ];
-
-  @override
-  bool updateShouldNotify(covariant Repository oldWidget) {
-    return eventsList != oldWidget.eventsList;
-  }
-
-  static Repository of(BuildContext context) {
-    final Repository result =
-        context.dependOnInheritedWidgetOfExactType<Repository>();
-    assert(result != null, 'No Repository found in context');
-    return result;
-  }
 }
