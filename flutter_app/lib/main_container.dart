@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/bloc/events_bloc.dart';
+import 'package:flutter_app/bloc/events_event.dart';
 import 'package:flutter_app/page_events/events_page.dart';
+import 'package:flutter_app/repository/web_api.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 
 class MainContainer extends StatelessWidget {
   @override
@@ -12,7 +17,10 @@ class MainContainer extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(systemStyle);
 
     return Scaffold(
-      body: EventsPage(),
+      body: BlocProvider(
+        create: (context) => _createEventsBloc(),
+        child: EventsPage(),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: theme.primaryColor,
@@ -27,4 +35,8 @@ class MainContainer extends StatelessWidget {
       ),
     );
   }
+
+  EventsBloc _createEventsBloc() =>
+      EventsBloc(webApi: WebApi(httpClient: http.Client()))
+        ..add(EventsFetched());
 }

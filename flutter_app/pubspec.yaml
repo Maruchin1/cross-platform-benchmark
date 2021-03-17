@@ -28,6 +28,7 @@ dependencies:
   equatable: ^1.0.0
   animated_size_and_fade: ^2.0.0
   scroll_to_index: ^1.0.6
+  rxdart: ^0.23.1
 
 
   # The following adds the Cupertino Icons font to your application.
