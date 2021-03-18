@@ -33,6 +33,7 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
   Stream<EventsState> _loadEvents(EventsState state) async* {
     try {
       if (state is EventsInitial) {
+        await repository.purge();
         yield* _loadInitialEvents();
       } else if (state is EventsSuccess) {
         yield* _loadMoreEvents(state);

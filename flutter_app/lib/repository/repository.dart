@@ -30,4 +30,8 @@ class Repository {
     final nextPageNumber = _currentPageNumber + 1;
     return webApi.getEventsPage(nextPageNumber, pageSize);
   }
+
+  Future<void> purge() async {
+    await localDatabase.deleteEvents();
+  }
 }

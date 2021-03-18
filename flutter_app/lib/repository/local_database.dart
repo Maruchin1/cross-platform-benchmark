@@ -25,4 +25,9 @@ class LocalDatabase {
       (index) => Event.fromDatabase(events[index]),
     );
   }
+
+  Future<void> deleteEvents() async {
+    final Database db = await database;
+    await db.delete('events');
+  }
 }
