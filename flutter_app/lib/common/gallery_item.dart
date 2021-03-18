@@ -19,12 +19,7 @@ class GalleryItem extends StatelessWidget {
           child: AspectRatio(
             aspectRatio: 3 / 4,
             child: SizedBox.expand(
-              child: Image.network(
-                imageUrl,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container();
-                },
-              ),
+              child: Image.network(imageUrl),
             ),
           ),
         ),

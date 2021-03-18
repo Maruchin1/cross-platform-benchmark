@@ -1,20 +1,19 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/events_event.dart';
 import 'package:flutter_app/bloc/events_state.dart';
-import 'package:flutter_app/repository/web_api.dart';
+import 'package:flutter_app/repository/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 class EventsBloc extends Bloc<EventsEvent, EventsState> {
-  final pageSize = 20;
-  final WebApi webApi;
+  final Repository repository;
 
-  EventsBloc({@required this.webApi}) : super(EventsInitial());
+  EventsBloc(this.repository) : super(EventsInitial());
 
   @override
-  Stream<Transition<EventsEvent, EventsState>> transformEvents(Stream<EventsEvent> events, transitionFn) {
+  Stream<Transition<EventsEvent, EventsState>> transformEvents(
+      Stream<EventsEvent> events, transitionFn) {
     return super.transformEvents(
-      events.debounceTime(const Duration(milliseconds: 500)),
+      events.debounceTime(const Duration(milliseconds: 1000)),
       transitionFn,
     );
   }
@@ -23,27 +22,7 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
   Stream<EventsState> mapEventToState(EventsEvent event) async* {
     final currentState = state;
     if (event is EventsFetched && !_hasReachedMax(currentState)) {
-      yield* _loadMoreEvents(currentState);
-    }
-  }
-
-  Stream<EventsState> _loadMoreEvents(EventsState state) async* {
-    try {
-      if (state is EventsInitial) {
-        final events = await webApi.getEventsPage(1, pageSize);
-        yield EventsSuccess(events: events, hasReachedMax: false);
-      } else if (state is EventsSuccess) {
-        final nextPageNumber = _getNextPageNumber(state);
-        final events = await webApi.getEventsPage(nextPageNumber, pageSize);
-        if (events.isEmpty) {
-          yield state.copyWith(hasReachedMax: true);
-        } else {
-          yield EventsSuccess(
-              events: state.events + events, hasReachedMax: false);
-        }
-      }
-    } catch (e) {
-      yield EventsFailure();
+      yield* _loadEvents(currentState);
     }
   }
 
@@ -51,9 +30,32 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
     return state is EventsSuccess && state.hasReachedMax;
   }
 
-  int _getNextPageNumber(EventsSuccess state) {
-    final numOfItems = state.events.length;
-    final numOfPages = numOfItems ~/ pageSize;
-    return numOfPages + 1;
+  Stream<EventsState> _loadEvents(EventsState state) async* {
+    try {
+      if (state is EventsInitial) {
+        yield* _loadInitialEvents();
+      } else if (state is EventsSuccess) {
+        yield* _loadMoreEvents(state);
+      }
+    } catch (e) {
+      yield EventsFailure();
+    }
+  }
+
+  Stream<EventsState> _loadInitialEvents() async* {
+    final events = await repository.getEvents();
+    final initialState = EventsSuccess(events: events, hasReachedMax: false);
+    yield initialState;
+    yield* _loadMoreEvents(initialState);
+  }
+
+  Stream<EventsState> _loadMoreEvents(EventsSuccess state) async* {
+    final moreEventsLoaded = await repository.loadMoreEvents();
+    if (moreEventsLoaded) {
+      final events = await repository.getEvents();
+      yield EventsSuccess(events: events, hasReachedMax: false);
+    } else {
+      yield EventsSuccess(events: state.events, hasReachedMax: true);
+    }
   }
 }

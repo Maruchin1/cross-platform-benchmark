@@ -19,6 +19,26 @@ class Event extends Equatable {
     this.galleryImagesUrls,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'image_url': imageUrl,
+      'name': name,
+      'date': date,
+      'place': place,
+      'description': description,
+      'gallery_images_urls': _encodeGalleyImagesUrls()
+    };
+  }
+
+  String _encodeGalleyImagesUrls() {
+    return galleryImagesUrls.join(',');
+  }
+
+  static List<String> _decodeGalleryImagesUrls(String value) {
+    return value.split(',');
+  }
+
   factory Event.fromJson(Map<String, dynamic> json) {
     List<dynamic> galleryImagesUrlsDynamic = json['galleryImagesUrls'];
     List<String> galleryImagesUrls =
@@ -30,6 +50,21 @@ class Event extends Equatable {
       date: json['date'] as String,
       place: json['place'] as String,
       description: json['description'] as String,
+      galleryImagesUrls: galleryImagesUrls,
+    );
+  }
+
+  factory Event.fromDatabase(Map<String, dynamic> record) {
+    final String galleryImagesUrlsValue = record['gallery_images_urls'];
+    final List<String> galleryImagesUrls =
+        _decodeGalleryImagesUrls(galleryImagesUrlsValue);
+    return Event(
+      id: record['id'] as int,
+      imageUrl: record['image_url'] as String,
+      name: record['name'] as String,
+      date: record['date'] as String,
+      place: record['place'] as String,
+      description: record['description'] as String,
       galleryImagesUrls: galleryImagesUrls,
     );
   }

@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/common/cover_image.dart';
 import 'package:flutter_app/common/text.dart';
 import 'package:flutter_app/model/event.dart';
-import 'package:flutter_app/page_events/gallery_item.dart';
+import 'package:flutter_app/common/gallery_item.dart';
 
 class EventExpandedItem extends StatelessWidget {
   final Event item;
