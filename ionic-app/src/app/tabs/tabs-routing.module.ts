@@ -9,7 +9,7 @@ const routes: Routes = [
     children: [
       {
         path: 'events',
-        loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+        loadChildren: () => import('../events/events.module').then(m => m.Tab1PageModule)
       },
       {
         path: 'messages',
@@ -21,7 +21,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/events',
         pathMatch: 'full'
       }
     ]

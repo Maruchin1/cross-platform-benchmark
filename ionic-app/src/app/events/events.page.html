@@ -1,0 +1,22 @@
+<ion-content [fullscreen]="true">
+  <ion-list>
+
+    <ion-text color="dark" class="ion-text-center">
+      <h1 id="page-header">25 lecie<br>Wydziału Grafiki<br>i Sztuki Mediów</h1>
+    </ion-text>
+
+    <ion-toolbar class="ion-text-center">
+      <ion-title>
+        Wydarzenia
+      </ion-title>
+    </ion-toolbar>
+
+    <app-event-item *ngFor="let event of events$ | async" [event]="event"></app-event-item>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreEvents($event)">
+      <ion-infinite-scroll-content
+        loading-spinner="bubbles"></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+  </ion-list>
+</ion-content>
