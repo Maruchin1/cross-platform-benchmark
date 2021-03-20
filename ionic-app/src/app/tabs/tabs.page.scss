@@ -1,1 +1,11 @@
+ion-tab-bar {
+  border-top: 2px solid var(--ion-color-primary-shade);
+}
 
+ion-label {
+  color: black;
+}
+
+.tab-selected{
+  font-weight: bold !important;
+}
