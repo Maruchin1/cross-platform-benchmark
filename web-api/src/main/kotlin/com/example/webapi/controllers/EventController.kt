@@ -12,7 +12,7 @@ class EventController(
     private val eventService: EventService
 ) {
 
-    @CrossOrigin(origins = ["http://localhost:4200"])
+    @CrossOrigin(originPatterns = ["*"])
     @GetMapping("/events/page")
     fun getPage(@RequestParam pageNumber: Int, @RequestParam pageSize: Int): List<Event> {
         return eventService.getPage(pageNumber, pageSize)
