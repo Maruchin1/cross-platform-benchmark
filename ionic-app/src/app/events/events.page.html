@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true">
+<ion-content #content [fullscreen]="true">
   <ion-list>
 
     <ion-text color="dark" class="ion-text-center">
@@ -11,7 +11,13 @@
       </ion-title>
     </ion-toolbar>
 
-    <app-event-item *ngFor="let event of events$ | async" [event]="event"></app-event-item>
+    <ng-container *ngFor="let event of events$ | async">
+
+      <app-event-item *ngIf="!isExpanded(event)" [event]="event" (click)="expandEvent(event)"></app-event-item>
+
+      <app-event-expanded-item *ngIf="isExpanded(event)" [event]="event"></app-event-expanded-item>
+
+    </ng-container>
 
     <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreEvents($event)">
       <ion-infinite-scroll-content

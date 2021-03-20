@@ -1,1 +1,22 @@
+<div #imageTopBorder class="image-border"></div>
 
+<ion-img [src]="event.imageUrl"></ion-img>
+
+<div class="image-border"></div>
+
+
+<div id="content">
+  <p id="event-name" class="app-text-title">{{event.name}}</p>
+
+  <p id="event-date" class="app-text-caption">{{event.date}}</p>
+
+  <p id="event-place" class="app-text-caption">Miejsce: {{event.place}}</p>
+
+  <p id="event-description" class="app-text-body">{{event.description}}</p>
+
+  <p id="gallery-label" class="app-text-caption">Galeria</p>
+</div>
+
+<div id="gallery">
+  <app-gallery-tem *ngFor="let imageUrl of event.galleryImagesUrls" [imageUrl]="imageUrl"></app-gallery-tem>
+</div>

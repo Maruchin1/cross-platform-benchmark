@@ -1,5 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Event} from '../../core/event.model';
+import {IonImg} from '@ionic/angular';
 
 @Component({
   selector: 'app-event-expanded-item',
@@ -10,9 +11,12 @@ export class EventExpandedItemComponent implements OnInit {
   constructor() {
   }
 
+  @ViewChild('imageTopBorder', {static: true}) imageTopBorder: ElementRef;
+
   @Input() event: Event;
 
   ngOnInit() {
+    this.imageTopBorder.nativeElement.scrollIntoView();
   }
 
 }

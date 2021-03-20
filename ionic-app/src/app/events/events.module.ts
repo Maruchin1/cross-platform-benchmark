@@ -8,6 +8,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 import { Tab1PageRoutingModule } from './events-routing.module';
 import {EventItemComponent} from './event-item/event-item.component';
 import {EventExpandedItemComponent} from './event-expanded-item/event-expanded-item.component';
+import {GalleryTemComponent} from './gallery-tem/gallery-tem.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import {EventExpandedItemComponent} from './event-expanded-item/event-expanded-i
     ExploreContainerComponentModule,
     Tab1PageRoutingModule
   ],
-  declarations: [EventsPage, EventItemComponent, EventExpandedItemComponent]
+  declarations: [EventsPage, EventItemComponent, EventExpandedItemComponent, GalleryTemComponent]
 })
 export class Tab1PageModule {}
