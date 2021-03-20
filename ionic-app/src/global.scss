@@ -24,3 +24,31 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.app-text-header {
+  font-family: "Roboto Light", sans-serif;
+  font-weight: normal;
+  font-size: 34px;
+  letter-spacing: 0;
+}
+
+.app-text-title {
+  font-family: "Roboto Light", sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  letter-spacing: 0.15px;
+}
+
+.app-text-body {
+  font-family: "Roboto Light", sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.app-text-caption {
+  font-family: "Roboto Light", sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+}
