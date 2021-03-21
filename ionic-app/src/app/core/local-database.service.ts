@@ -18,11 +18,9 @@ export class LocalDatabaseService {
 
   async insertEvents(events: Event[]): Promise<void> {
     const storage = await this.storage;
-    const savedValue: string = await storage.get(KEY_EVENTS);
-    const savedEvents: Event[] = JSON.parse(savedValue) ?? [];
+    const savedEvents: Event[] = (await storage.get(KEY_EVENTS)) ?? [];
     const updatedEvents = [...savedEvents, ...events];
-    const updatedValue = JSON.stringify(updatedEvents);
-    await storage.set(KEY_EVENTS, updatedValue);
+    await storage.set(KEY_EVENTS, updatedEvents);
     await this.loadEvents();
   }
 
@@ -38,8 +36,7 @@ export class LocalDatabaseService {
 
   private async loadEvents(): Promise<void> {
     const storage = await this.storage;
-    const savedValue: string = await storage.get(KEY_EVENTS);
-    const savedEvents: Event[] = JSON.parse(savedValue);
+    const savedEvents: Event[] = (await storage.get(KEY_EVENTS)) ?? [];
     this.events$.next(savedEvents);
   }
 }
