@@ -12,10 +12,9 @@ class AndroidUtils(
     private lateinit var vmStat: Process
 
     fun startVmStat(monitoringTimeSeconds: Long) {
-        val outputFile = newVmStatFile()
         vmStat = ProcessBuilder()
-            .redirectOutput(outputFile)
             .command("adb", "shell", "vmstat", "1", monitoringTimeSeconds.toString())
+            .redirectOutput(newVmStatFile())
             .start()
     }
 
@@ -24,10 +23,24 @@ class AndroidUtils(
     }
 
     fun dumpSysGfxInfo() {
-        val outputFile = newDumpSysGfxInfo()
         ProcessBuilder()
-            .redirectOutput(outputFile)
             .command("adb", "shell", "dumpsys", "gfxinfo", packageName)
+            .redirectOutput(newDumpSysGfxInfoFile())
+            .start()
+            .waitFor()
+    }
+
+    fun dumpsysBatteryStatsReset() {
+        ProcessBuilder()
+            .command("adb", "shell", "dumpsys", "batterystats", "--reset")
+            .start()
+            .waitFor()
+    }
+
+    fun dumpsysBatteryStats() {
+        ProcessBuilder()
+            .command("adb", "shell", "dumpsys", "batterystats", packageName)
+            .redirectOutput(newDumpSysBatteryStatsFile())
             .start()
             .waitFor()
     }
@@ -45,9 +58,15 @@ class AndroidUtils(
         return File(resultDir, fileName).apply { createNewFile() }
     }
 
-    private fun newDumpSysGfxInfo(): File {
+    private fun newDumpSysGfxInfoFile(): File {
         val timestamp = System.currentTimeMillis()
         val fileName = "gfxinfo_${target}_${timestamp}.txt"
+        return File(resultDir, fileName).apply { createNewFile() }
+    }
+
+    private fun newDumpSysBatteryStatsFile(): File {
+        val timestamp = System.currentTimeMillis()
+        val fileName = "batterystats_${target}_${timestamp}.txt"
         return File(resultDir, fileName).apply { createNewFile() }
     }
 }

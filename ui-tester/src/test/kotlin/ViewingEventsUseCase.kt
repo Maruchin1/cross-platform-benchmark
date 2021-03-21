@@ -25,7 +25,10 @@ class ViewingEventsUseCase(
     private val androidUtils = AndroidUtils(targetName, packageName)
 
     fun execute() {
-        androidUtils.startVmStat(calculateExecutionTimeSeconds())
+        androidUtils.run {
+            dumpsysBatteryStatsReset()
+            startVmStat(calculateExecutionTimeSeconds())
+        }
         Thread.sleep(INITIAL_TIME)
         repeat(OPENED_EVENTS) {
             repeat(SCROLLS_BETWEEN_OPENED_EVENTS) {
@@ -35,9 +38,12 @@ class ViewingEventsUseCase(
             openItem()
             Thread.sleep(READING_TIME)
         }
-        androidUtils.stopVmStat()
-        androidUtils.dumpSysGfxInfo()
-        androidUtils.uninstallApp()
+        androidUtils.run {
+            stopVmStat()
+            dumpSysGfxInfo()
+            dumpsysBatteryStats()
+            uninstallApp()
+        }
     }
 
     private fun scrollDown() {
