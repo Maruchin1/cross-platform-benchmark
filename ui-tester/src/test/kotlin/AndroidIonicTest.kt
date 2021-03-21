@@ -2,14 +2,14 @@ import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 
-class AndroidNativeTest {
+class AndroidIonicTest {
     companion object {
         private val appium = AppiumAndroid()
 
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
-            appium.setup("android-native-debug.apk")
+            appium.setup("android-ionic-debug.apk")
         }
 
         @AfterClass
