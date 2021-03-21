@@ -12,7 +12,7 @@ class Terminal {
     fun startVmStat(outputFile: File, monitoringTimeSeconds: Long): Process {
         return ProcessBuilder().run {
             redirectOutput(outputFile)
-            command("adb", "shell", "vmstat", "1", monitoringTimeSeconds.toString())
+            command("adb", "shell", "vmstat", "-S", "m", "1", monitoringTimeSeconds.toString())
             start()
         }
     }
