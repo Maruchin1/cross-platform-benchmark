@@ -10,17 +10,15 @@ import java.time.Duration
 class ViewingEventsUseCase(
     private val driver: AndroidDriver<MobileElement>
 ) {
-
     fun execute() {
-        Thread.sleep(2_000)
-
-        repeat(10) {
-            repeat(5) {
+        Thread.sleep(Config.INITIAL_TIME)
+        repeat(Config.OPENED_EVENTS) {
+            repeat(Config.SCROLLS_BETWEEN_OPENED_EVENTS) {
                 scrollDown()
-                Thread.sleep(1_000)
+                Thread.sleep(Config.SCROLL_INTERVAL)
             }
             openItem()
-            Thread.sleep(2_000)
+            Thread.sleep(Config.READING_TIME)
         }
     }
 
@@ -37,7 +35,7 @@ class ViewingEventsUseCase(
     private fun scrollVertically(yStart: Int, yEnd: Int) {
         AndroidTouchAction(driver as PerformsTouchActions)
             .press(PointOption.point(0, yStart))
-            .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(Config.SCROLL_DURATION)))
             .moveTo(PointOption.point(0, yEnd))
             .release()
             .perform()
@@ -47,9 +45,7 @@ class ViewingEventsUseCase(
         val dimension: Dimension = driver.manage().window().size
         val xCenter = dimension.getWidth() * 0.5
         val yFirst = dimension.getHeight() * 0.3
-        val ySecond = dimension.getHeight() * 0.6
         clickAtPoint(x = xCenter.toInt(), y = yFirst.toInt())
-        clickAtPoint(x = xCenter.toInt(), y = ySecond.toInt())
     }
 
     private fun clickAtPoint(x: Int, y: Int) {
