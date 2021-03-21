@@ -21,6 +21,10 @@ class AndroidIonicTest {
 
     @Test
     fun test() {
-        ViewingEventsUseCase(appium.driver).execute()
+        ViewingEventsUseCase(
+            driver = appium.driver,
+            targetName = "AndroidIonic",
+            packageName = "io.ionic.starter"
+        ).execute()
     }
 }

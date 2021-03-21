@@ -21,6 +21,10 @@ class AndroidFlutterTest {
 
     @Test
     fun test() {
-        ViewingEventsUseCase(appium.driver).execute()
+        ViewingEventsUseCase(
+            driver = appium.driver,
+            targetName = "AndroidFlutter",
+            packageName = "com.example.flutter_app"
+        ).execute()
     }
 }

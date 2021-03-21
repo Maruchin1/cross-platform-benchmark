@@ -8,18 +8,36 @@ import org.openqa.selenium.Dimension
 import java.time.Duration
 
 class ViewingEventsUseCase(
-    private val driver: AndroidDriver<MobileElement>
+    private val driver: AndroidDriver<MobileElement>,
+    targetName: String,
+    packageName: String
 ) {
+    companion object {
+        const val OPENED_EVENTS = 2
+        const val SCROLLS_BETWEEN_OPENED_EVENTS = 3
+
+        const val INITIAL_TIME = 2_000L
+        const val READING_TIME = 2_000L
+        const val SCROLL_INTERVAL = 1_000L
+        const val SCROLL_DURATION = 500L
+    }
+
+    private val androidUtils = AndroidUtils(targetName, packageName)
+
     fun execute() {
-        Thread.sleep(Config.INITIAL_TIME)
-        repeat(Config.OPENED_EVENTS) {
-            repeat(Config.SCROLLS_BETWEEN_OPENED_EVENTS) {
+        androidUtils.startVmStat(calculateExecutionTimeSeconds())
+        Thread.sleep(INITIAL_TIME)
+        repeat(OPENED_EVENTS) {
+            repeat(SCROLLS_BETWEEN_OPENED_EVENTS) {
                 scrollDown()
-                Thread.sleep(Config.SCROLL_INTERVAL)
+                Thread.sleep(SCROLL_INTERVAL)
             }
             openItem()
-            Thread.sleep(Config.READING_TIME)
+            Thread.sleep(READING_TIME)
         }
+        androidUtils.stopVmStat()
+        androidUtils.dumpSysGfxInfo()
+        androidUtils.uninstallApp()
     }
 
     private fun scrollDown() {
@@ -35,7 +53,7 @@ class ViewingEventsUseCase(
     private fun scrollVertically(yStart: Int, yEnd: Int) {
         AndroidTouchAction(driver as PerformsTouchActions)
             .press(PointOption.point(0, yStart))
-            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(Config.SCROLL_DURATION)))
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(SCROLL_DURATION)))
             .moveTo(PointOption.point(0, yEnd))
             .release()
             .perform()
@@ -53,5 +71,11 @@ class ViewingEventsUseCase(
             .press(PointOption.point(x, y))
             .release()
             .perform()
+    }
+
+    private fun calculateExecutionTimeSeconds(): Long {
+        val millis =
+            INITIAL_TIME + OPENED_EVENTS * (SCROLLS_BETWEEN_OPENED_EVENTS * (SCROLL_DURATION + SCROLL_INTERVAL) + READING_TIME)
+        return (millis / 1_000) + 30
     }
 }

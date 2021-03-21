@@ -21,6 +21,10 @@ class AndroidNativeTest {
 
     @Test
     fun test() {
-        ViewingEventsUseCase(appium.driver).execute()
+        ViewingEventsUseCase(
+            driver = appium.driver,
+            targetName = "AndroidNative",
+            packageName = "com.example.android_app"
+        ).execute()
     }
 }
