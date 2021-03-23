@@ -8,9 +8,12 @@ export const useRepository = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [allEventsLoaded, setAllEventsLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const loadNextEventsPage = async () => {
     console.log('loadNextEventsPage');
+    if (loading) return;
+    setLoading(true);
     try {
       const loadedEvents = await WebApi.getEventsPage(
         currentPage + 1,
@@ -26,7 +29,8 @@ export const useRepository = () => {
     } catch (e) {
       console.error(e);
     }
+    setLoading(false);
   };
 
-  return {events, loadNextEventsPage};
+  return {events, loading, loadNextEventsPage};
 };

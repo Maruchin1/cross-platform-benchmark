@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
-import {globalStyles} from '../globalStyles';
+import {ActivityIndicator, FlatList, StyleSheet, View} from 'react-native';
+import {appColors, globalStyles} from '../globalStyles';
 import {useRepository} from '../repository/useRepository';
 import {EventItem} from './EventItem';
 
@@ -11,12 +11,25 @@ export const EventsPage = () => {
     repository.loadNextEventsPage();
   }, []);
 
+  const renderLoadingIndicator = () => {
+    return (
+      <View style={styles.loadingIndicator}>
+        {repository.loading ? (
+          <ActivityIndicator color={appColors.grey400} style={{margin: 15}} />
+        ) : null}
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
         data={repository.events}
         renderItem={info => <EventItem event={info.item} />}
         keyExtractor={item => item.id.toString()}
+        onEndReachedThreshold={0}
+        onEndReached={() => repository.loadNextEventsPage()}
+        ListFooterComponent={renderLoadingIndicator}
       />
     </View>
   );
@@ -48,5 +61,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
+  },
+  loadingIndicator: {
+    padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
 });
