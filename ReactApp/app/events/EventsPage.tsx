@@ -5,16 +5,19 @@ import {useRepository} from '../repository/useRepository';
 import {EventItem} from './EventItem';
 
 export const EventsPage = () => {
-  const repository = useRepository();
+  const {isInitialized, events, loading, loadNextEventsPage} = useRepository();
 
   useEffect(() => {
-    repository.loadNextEventsPage();
-  }, []);
+    console.log('## useEffect, isInitialized: ', isInitialized);
+    if (isInitialized) {
+      loadNextEventsPage();
+    }
+  }, [isInitialized]);
 
   const renderLoadingIndicator = () => {
     return (
       <View style={styles.loadingIndicator}>
-        {repository.loading ? (
+        {loading ? (
           <ActivityIndicator color={appColors.grey400} style={{margin: 15}} />
         ) : null}
       </View>
@@ -24,11 +27,11 @@ export const EventsPage = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={repository.events}
+        data={events}
         renderItem={info => <EventItem event={info.item} />}
         keyExtractor={item => item.id.toString()}
         onEndReachedThreshold={0}
-        onEndReached={() => repository.loadNextEventsPage()}
+        onEndReached={() => loadNextEventsPage()}
         ListFooterComponent={renderLoadingIndicator}
       />
     </View>

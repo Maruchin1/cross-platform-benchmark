@@ -1,17 +1,18 @@
 import {useState} from 'react';
 import WebApi from './WebApi';
-import {Event} from '../model/Event';
+import {useLocalDatabase} from './useLocalDatabase';
 
 const PAGE_SIZE = 20;
 
 export const useRepository = () => {
-  const [events, setEvents] = useState<Event[]>([]);
+  const {isInitialized, events, insertEvents} = useLocalDatabase();
+
   const [currentPage, setCurrentPage] = useState(0);
-  const [allEventsLoaded, setAllEventsLoaded] = useState(false);
+
   const [loading, setLoading] = useState(false);
 
   const loadNextEventsPage = async () => {
-    console.log('loadNextEventsPage');
+    console.log('## loadNextEventsPage');
     if (loading) return;
     setLoading(true);
     try {
@@ -19,12 +20,10 @@ export const useRepository = () => {
         currentPage + 1,
         PAGE_SIZE,
       );
-      console.log('loadedEvents: ', loadedEvents);
+      console.log('## eventsFromWebApi: ', loadedEvents);
       if (loadedEvents.length > 0) {
-        setEvents([...events, ...loadedEvents]);
+        await insertEvents(loadedEvents);
         setCurrentPage(currentPage + 1);
-      } else {
-        setAllEventsLoaded(true);
       }
     } catch (e) {
       console.error(e);
@@ -32,5 +31,5 @@ export const useRepository = () => {
     setLoading(false);
   };
 
-  return {events, loading, loadNextEventsPage};
+  return {isInitialized, events, loading, loadNextEventsPage};
 };
