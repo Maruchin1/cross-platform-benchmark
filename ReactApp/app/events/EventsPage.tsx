@@ -2,6 +2,7 @@ import React, {useMemo} from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -10,6 +11,7 @@ import {appColors, globalStyles} from '../globalStyles';
 import {useRepository} from '../repository/useRepository';
 import {EventItem} from './EventItem';
 import {Event} from '../model/Event';
+import {BottomNav} from '../common/BottomNav';
 
 export const EventsPage = () => {
   const {events, loading, loadNextEventsPage} = useRepository();
@@ -30,6 +32,7 @@ export const EventsPage = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={appColors.white} barStyle={'dark-content'} />
       <FlatList
         data={listItems}
         renderItem={({item, index}) => {
@@ -63,6 +66,7 @@ export const EventsPage = () => {
         onEndReached={() => loadNextEventsPage()}
         ListFooterComponent={renderLoadingIndicator}
       />
+      <BottomNav />
     </View>
   );
 };
@@ -70,6 +74,7 @@ export const EventsPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
   },
   headline: {
     backgroundColor: appColors.white,
