@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -9,22 +9,35 @@ import {
 } from 'react-native';
 import {appColors, globalStyles} from '../globalStyles';
 import {useRepository} from '../repository/useRepository';
-import {EventItem} from './EventItem';
 import {Event} from '../model/Event';
 import {BottomNav} from '../common/BottomNav';
+import {EventExpandedItem} from './EventExpandedItem';
+import {EventItem} from './EventItem';
 
 export const EventsPage = () => {
   const {events, loading, loadNextEventsPage} = useRepository();
+  const [openedEventId, setOpenedEventId] = useState<number | null>(null);
 
   const listItems = useMemo(() => {
     return [null, null, ...events];
   }, [events]);
 
+  const openEvent = useCallback((event: Event) => {
+    setOpenedEventId(event.id);
+  }, []);
+
+  const closeOpenedEvent = useCallback(() => {
+    setOpenedEventId(null);
+  }, []);
+
   const renderLoadingIndicator = () => {
     return (
       <View style={styles.loadingIndicator}>
         {loading ? (
-          <ActivityIndicator color={appColors.grey400} style={{margin: 15}} />
+          <ActivityIndicator
+            color={appColors.grey400}
+            style={styles.activityIndicator}
+          />
         ) : null}
       </View>
     );
@@ -37,7 +50,13 @@ export const EventsPage = () => {
         data={listItems}
         renderItem={({item, index}) => {
           if (item instanceof Event) {
-            return <EventItem event={item} />;
+            if (item.id === openedEventId) {
+              return (
+                <EventExpandedItem event={item} onClose={closeOpenedEvent} />
+              );
+            } else {
+              return <EventItem event={item} onClick={openEvent} />;
+            }
           } else if (index === 0) {
             return (
               <View style={styles.headline}>
@@ -108,5 +127,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+  },
+  activityIndicator: {
+    margin: 15,
   },
 });

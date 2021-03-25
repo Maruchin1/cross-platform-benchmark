@@ -17,6 +17,11 @@ export const globalStyles = StyleSheet.create({
     fontWeight: 'normal',
     letterSpacing: 0.15,
   },
+  textBody: {
+    fontSize: 16,
+    fontWeight: 'normal',
+    letterSpacing: 0.5,
+  },
   textCaption: {
     fontSize: 12,
     fontWeight: 'normal',
