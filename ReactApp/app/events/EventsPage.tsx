@@ -1,18 +1,22 @@
-import React, {useEffect} from 'react';
-import {ActivityIndicator, FlatList, StyleSheet, View} from 'react-native';
+import React, {useMemo} from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {appColors, globalStyles} from '../globalStyles';
 import {useRepository} from '../repository/useRepository';
 import {EventItem} from './EventItem';
+import {Event} from '../model/Event';
 
 export const EventsPage = () => {
-  const {isInitialized, events, loading, loadNextEventsPage} = useRepository();
+  const {events, loading, loadNextEventsPage} = useRepository();
 
-  useEffect(() => {
-    console.log('## useEffect, isInitialized: ', isInitialized);
-    if (isInitialized) {
-      loadNextEventsPage();
-    }
-  }, [isInitialized]);
+  const listItems = useMemo(() => {
+    return [null, null, ...events];
+  }, [events]);
 
   const renderLoadingIndicator = () => {
     return (
@@ -27,9 +31,34 @@ export const EventsPage = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={events}
-        renderItem={info => <EventItem event={info.item} />}
-        keyExtractor={item => item.id.toString()}
+        data={listItems}
+        renderItem={({item, index}) => {
+          if (item instanceof Event) {
+            return <EventItem event={item} />;
+          } else if (index === 0) {
+            return (
+              <View style={styles.headline}>
+                <Text style={styles.textHeadline}>
+                  25-lecie Wydziału{'\n'}Grafiki i Sztuki{'\n'}Mediów
+                </Text>
+              </View>
+            );
+          } else if (index === 1) {
+            return (
+              <View style={styles.toolbar}>
+                <Text style={styles.textTitle}>Wydarzenia</Text>
+              </View>
+            );
+          }
+        }}
+        keyExtractor={(item, index) => {
+          if (item instanceof Event) {
+            return (item.id + index).toString();
+          } else {
+            return index.toString();
+          }
+        }}
+        stickyHeaderIndices={[1]}
         onEndReachedThreshold={0}
         onEndReached={() => loadNextEventsPage()}
         ListFooterComponent={renderLoadingIndicator}
@@ -42,21 +71,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  appBar: {
-    flexDirection: 'column',
+  headline: {
+    backgroundColor: appColors.white,
+    paddingTop: 128,
+    paddingBottom: 82,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   textHeadline: {
-    marginTop: 128,
-    marginBottom: 64,
     textAlign: 'center',
     ...globalStyles.textHeadline,
   },
+  toolbar: {
+    backgroundColor: appColors.white,
+    height: 60,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   textTitle: {
-    textAlign: 'center',
-    position: 'absolute',
-    bottom: 8,
-    left: 0,
-    right: 0,
     ...globalStyles.textTitle,
   },
   scrollContainer: {

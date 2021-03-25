@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 export const appColors = {
+  white: '#ffffff',
   grey300: '#e0e0e0',
   grey400: '#bdbdbd',
 };

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import WebApi from './WebApi';
 import {useLocalDatabase} from './useLocalDatabase';
 
@@ -11,9 +11,16 @@ export const useRepository = () => {
 
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    console.log('useEffect: ', isInitialized);
+    if (isInitialized) {
+      loadNextEventsPage();
+    }
+  }, [isInitialized]);
+
   const loadNextEventsPage = async () => {
-    console.log('## loadNextEventsPage');
-    if (loading) return;
+    console.log('## loadNextEventsPage, isInitialized: ', isInitialized);
+    if (loading || !isInitialized) return;
     setLoading(true);
     try {
       const loadedEvents = await WebApi.getEventsPage(

@@ -23,7 +23,7 @@ export const useLocalDatabase = () => {
         type: 'react-native',
         database: 'test',
         location: 'default',
-        logging: ['query', 'error', 'warn'],
+        logging: ['error'],
         synchronize: true,
         entities: [Event],
       });
@@ -47,13 +47,9 @@ export const useLocalDatabase = () => {
     }
     const repo = getRepository(Event);
     console.log('## repo');
-    for (const event of newEvents) {
-      await repo.save(event);
-      console.log('## event saved');
-    }
+    await repo.save(newEvents);
     console.log('## all events saved');
     await refreshEvents();
-    console.log('## refresh');
   };
 
   const refreshEvents = async () => {
