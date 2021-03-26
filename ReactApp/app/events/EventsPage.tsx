@@ -1,7 +1,8 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  LayoutAnimation,
   StatusBar,
   StyleSheet,
   Text,
@@ -12,23 +13,35 @@ import {useRepository} from '../repository/useRepository';
 import {Event} from '../model/Event';
 import {BottomNav} from '../common/BottomNav';
 import {EventExpandedItem} from './EventExpandedItem';
-import {EventItem} from './EventItem';
+import {EventCollapsedItem} from './EventCollapsedItem';
 
 export const EventsPage = () => {
   const {events, loading, loadNextEventsPage} = useRepository();
   const [openedEventId, setOpenedEventId] = useState<number | null>(null);
+  const eventsList = useRef<FlatList>(null);
 
   const listItems = useMemo(() => {
     return [null, null, ...events];
   }, [events]);
 
   const openEvent = useCallback((event: Event) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setOpenedEventId(event.id);
   }, []);
 
   const closeOpenedEvent = useCallback(() => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setOpenedEventId(null);
   }, []);
+
+  const scrollToIndex = (index: number) => {
+    eventsList.current.scrollToIndex({
+      index,
+      animated: true,
+      viewPosition: 0,
+      viewOffset: 60,
+    });
+  };
 
   const renderLoadingIndicator = () => {
     return (
@@ -47,15 +60,19 @@ export const EventsPage = () => {
     <View style={styles.container}>
       <StatusBar backgroundColor={appColors.white} barStyle={'dark-content'} />
       <FlatList
+        ref={eventsList}
         data={listItems}
         renderItem={({item, index}) => {
           if (item instanceof Event) {
             if (item.id === openedEventId) {
               return (
-                <EventExpandedItem event={item} onClose={closeOpenedEvent} />
+                <View
+                  onLayout={() => setTimeout(() => scrollToIndex(index), 500)}>
+                  <EventExpandedItem event={item} onClose={closeOpenedEvent} />
+                </View>
               );
             } else {
-              return <EventItem event={item} onClick={openEvent} />;
+              return <EventCollapsedItem event={item} onClick={openEvent} />;
             }
           } else if (index === 0) {
             return (

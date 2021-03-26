@@ -10,6 +10,14 @@
 
 import React from 'react';
 import {EventsPage} from './app/events/EventsPage';
+import {Platform, UIManager} from 'react-native';
+
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 const App = () => {
   return <EventsPage />;

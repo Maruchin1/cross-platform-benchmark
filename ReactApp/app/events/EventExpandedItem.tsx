@@ -9,7 +9,7 @@ interface InputData {
   onClose: () => void;
 }
 
-export const EventExpandedItem = ({event, onClose}: InputData) => {
+export const EventExpandedItem = ({event}: InputData) => {
   const galleryImagesUrls: string[] = useMemo(() => {
     return JSON.parse(event.galleryImagesUrls);
   }, [event]);
@@ -29,7 +29,7 @@ export const EventExpandedItem = ({event, onClose}: InputData) => {
       <View style={styles.galleryContainer}>
         <ScrollView horizontal={true}>
           {galleryImagesUrls.map(imageUrl => (
-            <GalleryItem imageUrl={imageUrl} />
+            <GalleryItem key={imageUrl} imageUrl={imageUrl} />
           ))}
         </ScrollView>
       </View>

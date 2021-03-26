@@ -8,7 +8,7 @@ interface InputData {
   onClick: (event: Event) => void;
 }
 
-export const EventItem = ({event, onClick}: InputData) => {
+export const EventCollapsedItem = ({event, onClick}: InputData) => {
   return (
     <View style={styles.itemCard}>
       <TouchableOpacity activeOpacity={0.6} onPress={() => onClick(event)}>
