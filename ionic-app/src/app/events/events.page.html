@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content #content>
   <ion-list>
 
     <ion-text color="dark" class="ion-text-center">
@@ -21,7 +21,8 @@
 
         <app-event-expanded-item
           *ngIf="isExpanded(event)"
-          [event]="event"></app-event-expanded-item>
+          [event]="event"
+          (scrollTo)="content.scrollToPoint($event[0], $event[1] - 56, 300)"></app-event-expanded-item>
       </div>
 
     </ng-container>

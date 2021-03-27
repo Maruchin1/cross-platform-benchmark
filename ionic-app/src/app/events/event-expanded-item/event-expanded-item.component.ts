@@ -1,6 +1,5 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, Output, ViewChild, EventEmitter} from '@angular/core';
 import {Event} from '../../core/event.model';
-import {IonImg} from '@ionic/angular';
 
 @Component({
   selector: 'app-event-expanded-item',
@@ -15,8 +14,14 @@ export class EventExpandedItemComponent implements OnInit {
 
   @Input() event: Event;
 
+  @Output() scrollTo = new EventEmitter<[number, number]>();
+
   ngOnInit() {
-    this.imageTopBorder.nativeElement.scrollIntoView();
+    setTimeout(() => {
+      const x = this.imageTopBorder.nativeElement.offsetLeft;
+      const y = this.imageTopBorder.nativeElement.offsetTop;
+      this.scrollTo.emit([x, y]);
+    }, 500);
   }
 
 }
