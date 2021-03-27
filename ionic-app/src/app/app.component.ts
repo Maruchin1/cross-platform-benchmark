@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {LocalDatabaseService} from './core/local-database.service';
+import {Plugins, StatusBarStyle} from '@capacitor/core';
 
 @Component({
   selector: 'app-root',
@@ -11,5 +12,8 @@ export class AppComponent {
     private localDatabaseService: LocalDatabaseService
   ) {
     localDatabaseService.initDatabase();
+
+    Plugins.StatusBar.setBackgroundColor({color: '#ffffff'});
+    Plugins.StatusBar.setStyle({style: StatusBarStyle.Light});
   }
 }

@@ -34,10 +34,12 @@ export class LocalDatabaseService {
         entities: [Event]
       });
     }
+    const repository = this.getEventRepo();
+    await repository.clear();
   }
 
   async insertEvents(events: Event[]): Promise<void> {
-    const repository = getRepository('event') as Repository<Event>;
+    const repository = this.getEventRepo();
     await repository.save(events);
     await this.loadEvents();
   }
@@ -47,8 +49,12 @@ export class LocalDatabaseService {
   }
 
   private async loadEvents(): Promise<void> {
-    const repository = getRepository('event') as Repository<Event>;
+    const repository = this.getEventRepo();
     const savedEvents: Event[] = await repository.find();
     this.events$.next(savedEvents);
+  }
+
+  private getEventRepo(): Repository<Event> {
+    return getRepository('event') as Repository<Event>;
   }
 }
