@@ -9,7 +9,7 @@ const routes: Routes = [
     children: [
       {
         path: 'events',
-        loadChildren: () => import('../events/events.module').then(m => m.Tab1PageModule)
+        loadChildren: () => import('../events/events.module').then(m => m.EventsPageModule)
       },
       {
         path: 'messages',

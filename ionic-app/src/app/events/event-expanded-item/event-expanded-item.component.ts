@@ -21,7 +21,7 @@ export class EventExpandedItemComponent implements OnInit {
       const x = this.imageTopBorder.nativeElement.offsetLeft;
       const y = this.imageTopBorder.nativeElement.offsetTop;
       this.scrollTo.emit([x, y]);
-    }, 500);
+    }, 100);
   }
 
 }

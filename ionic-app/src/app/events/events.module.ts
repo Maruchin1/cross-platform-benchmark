@@ -17,5 +17,5 @@ import {GalleryTemComponent} from './gallery-tem/gallery-tem.component';
   ],
   declarations: [EventsPage, EventItemComponent, EventExpandedItemComponent, GalleryTemComponent]
 })
-export class Tab1PageModule {
+export class EventsPageModule {
 }

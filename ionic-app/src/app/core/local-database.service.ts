@@ -1,26 +1,44 @@
 import {Injectable} from '@angular/core';
 import {Event} from './event.model';
-import {Storage} from '@ionic/storage-angular';
 import {BehaviorSubject, Observable} from 'rxjs';
-
-const KEY_EVENTS = 'key_events';
+import {Platform} from '@ionic/angular';
+import {createConnection, getRepository, Repository} from 'typeorm';
 
 @Injectable()
 export class LocalDatabaseService {
   constructor(
-    storage: Storage
+    private platform: Platform
   ) {
-    this.storage = this.initStorage(storage);
   }
 
-  private readonly storage: Promise<Storage>;
   private events$ = new BehaviorSubject<Event[]>([]);
 
+  async initDatabase() {
+    await this.platform.ready();
+    if (this.platform.is('capacitor')) {
+      await createConnection({
+        type: 'cordova',
+        database: 'test',
+        location: 'default',
+        logging: ['error', 'query', 'schema'],
+        synchronize: true,
+        entities: [Event]
+      });
+    } else {
+      await createConnection({
+        type: 'sqljs',
+        autoSave: true,
+        location: 'browser',
+        logging: ['error', 'query', 'schema'],
+        synchronize: true,
+        entities: [Event]
+      });
+    }
+  }
+
   async insertEvents(events: Event[]): Promise<void> {
-    const storage = await this.storage;
-    const savedEvents: Event[] = (await storage.get(KEY_EVENTS)) ?? [];
-    const updatedEvents = [...savedEvents, ...events];
-    await storage.set(KEY_EVENTS, updatedEvents);
+    const repository = getRepository('event') as Repository<Event>;
+    await repository.save(events);
     await this.loadEvents();
   }
 
@@ -28,15 +46,9 @@ export class LocalDatabaseService {
     return this.events$;
   }
 
-  private async initStorage(storage: Storage): Promise<Storage> {
-    const createdStorage = await storage.create();
-    await createdStorage.clear();
-    return createdStorage;
-  }
-
   private async loadEvents(): Promise<void> {
-    const storage = await this.storage;
-    const savedEvents: Event[] = (await storage.get(KEY_EVENTS)) ?? [];
+    const repository = getRepository('event') as Repository<Event>;
+    const savedEvents: Event[] = await repository.find();
     this.events$.next(savedEvents);
   }
 }
