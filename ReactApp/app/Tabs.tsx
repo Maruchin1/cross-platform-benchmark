@@ -7,6 +7,7 @@ import {appColors} from './globalStyles';
 import {MessagesPage} from './messages/MessagesPage';
 import {DepartmentPage} from './department/DepartmentPage';
 import {TimelinePage} from './timeline/TimelinePage';
+import {LocalDatabaseContext} from './repository/LocalDatabase';
 
 export const Tabs = () => {
   const [option, setOption] = useState<BottomNavOption>('events');
@@ -29,11 +30,16 @@ export const Tabs = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={appColors.white} barStyle={'dark-content'} />
-      <View style={styles.container}>{renderCurrentPage()}</View>
-      <BottomNav onOptionChange={setOption} />
-    </SafeAreaView>
+    <LocalDatabaseContext.Provider value={{events: []}}>
+      <SafeAreaView style={styles.container}>
+        <StatusBar
+          backgroundColor={appColors.white}
+          barStyle={'dark-content'}
+        />
+        <View style={styles.container}>{renderCurrentPage()}</View>
+        <BottomNav onOptionChange={setOption} />
+      </SafeAreaView>
+    </LocalDatabaseContext.Provider>
   );
 };
 
