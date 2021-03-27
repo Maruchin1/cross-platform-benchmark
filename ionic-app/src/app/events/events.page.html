@@ -5,17 +5,24 @@
       <h1 id="page-header" class="app-text-header">25 lecie<br>Wydziału Grafiki<br>i Sztuki Mediów</h1>
     </ion-text>
 
-    <ion-toolbar class="ion-text-center">
+    <ion-toolbar id="toolbar" class="ion-text-center">
       <ion-title class="app-text-title">
         Wydarzenia
       </ion-title>
     </ion-toolbar>
 
-    <ng-container *ngFor="let event of events$ | async">
+    <ng-container *ngFor="let event of events$ | async; let first = first">
 
-      <app-event-item *ngIf="!isExpanded(event)" [event]="event" (click)="expandEvent(event)"></app-event-item>
+      <div [class.first-event]="first">
+        <app-event-item
+          *ngIf="!isExpanded(event)"
+          [event]="event"
+          (click)="expandEvent(event)"></app-event-item>
 
-      <app-event-expanded-item *ngIf="isExpanded(event)" [event]="event"></app-event-expanded-item>
+        <app-event-expanded-item
+          *ngIf="isExpanded(event)"
+          [event]="event"></app-event-expanded-item>
+      </div>
 
     </ng-container>
 
@@ -25,4 +32,9 @@
     </ion-infinite-scroll>
 
   </ion-list>
+
+  <ion-button id="menu-button" fill="clear">
+    <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+  </ion-button>
+
 </ion-content>
