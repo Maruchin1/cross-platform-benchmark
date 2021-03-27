@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LocalDatabaseService} from './core/local-database.service';
 import {Plugins, StatusBarStyle} from '@capacitor/core';
 
@@ -7,13 +7,15 @@ import {Plugins, StatusBarStyle} from '@capacitor/core';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(
     private localDatabaseService: LocalDatabaseService
   ) {
-    localDatabaseService.initDatabase();
-
     Plugins.StatusBar.setBackgroundColor({color: '#ffffff'});
     Plugins.StatusBar.setStyle({style: StatusBarStyle.Light});
+  }
+
+  async ngOnInit() {
+    await this.localDatabaseService.initDatabase();
   }
 }
