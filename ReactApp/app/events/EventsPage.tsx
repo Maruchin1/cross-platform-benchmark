@@ -3,7 +3,6 @@ import {
   ActivityIndicator,
   FlatList,
   LayoutAnimation,
-  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -11,9 +10,9 @@ import {
 import {appColors, globalStyles} from '../globalStyles';
 import {useRepository} from '../repository/useRepository';
 import {Event} from '../model/Event';
-import {BottomNav} from '../common/BottomNav';
 import {EventExpandedItem} from './EventExpandedItem';
 import {EventCollapsedItem} from './EventCollapsedItem';
+import {Toolbar} from '../common/Toolbar';
 
 export const EventsPage = () => {
   const {events, loading, loadNextEventsPage} = useRepository();
@@ -57,53 +56,51 @@ export const EventsPage = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor={appColors.white} barStyle={'dark-content'} />
-      <FlatList
-        ref={eventsList}
-        data={listItems}
-        renderItem={({item, index}) => {
-          if (item instanceof Event) {
-            if (item.id === openedEventId) {
-              return (
-                <View
-                  onLayout={() => setTimeout(() => scrollToIndex(index), 500)}>
-                  <EventExpandedItem event={item} onClose={closeOpenedEvent} />
-                </View>
-              );
-            } else {
-              return <EventCollapsedItem event={item} onClick={openEvent} />;
-            }
-          } else if (index === 0) {
+    <FlatList
+      style={styles.eventsList}
+      ref={eventsList}
+      data={listItems}
+      renderItem={({item, index}) => {
+        if (item instanceof Event) {
+          if (item.id === openedEventId) {
             return (
-              <View style={styles.headline}>
-                <Text style={styles.textHeadline}>
-                  25-lecie Wydziału{'\n'}Grafiki i Sztuki{'\n'}Mediów
-                </Text>
+              <View
+                style={index === 2 ? styles.firstItem : {}}
+                onLayout={() => setTimeout(() => scrollToIndex(index), 100)}>
+                <EventExpandedItem event={item} onClose={closeOpenedEvent} />
               </View>
             );
-          } else if (index === 1) {
-            return (
-              <View style={styles.toolbar}>
-                <Text style={styles.textTitle}>Wydarzenia</Text>
-              </View>
-            );
-          }
-        }}
-        keyExtractor={(item, index) => {
-          if (item instanceof Event) {
-            return (item.id + index).toString();
           } else {
-            return index.toString();
+            return (
+              <View style={index === 2 ? styles.firstItem : {}}>
+                <EventCollapsedItem event={item} onClick={openEvent} />
+              </View>
+            );
           }
-        }}
-        stickyHeaderIndices={[1]}
-        onEndReachedThreshold={0}
-        onEndReached={() => loadNextEventsPage()}
-        ListFooterComponent={renderLoadingIndicator}
-      />
-      <BottomNav />
-    </View>
+        } else if (index === 0) {
+          return (
+            <View style={styles.headline}>
+              <Text style={styles.textHeadline}>
+                25-lecie{'\n'}Wydziału Grafiki{'\n'}i Sztuki Mediów
+              </Text>
+            </View>
+          );
+        } else if (index === 1) {
+          return <Toolbar title={'Wydarzenia'} />;
+        }
+      }}
+      keyExtractor={(item, index) => {
+        if (item instanceof Event) {
+          return (item.id + index).toString();
+        } else {
+          return index.toString();
+        }
+      }}
+      stickyHeaderIndices={[1]}
+      onEndReachedThreshold={0}
+      onEndReached={() => loadNextEventsPage()}
+      ListFooterComponent={renderLoadingIndicator}
+    />
   );
 };
 
@@ -114,8 +111,8 @@ const styles = StyleSheet.create({
   },
   headline: {
     backgroundColor: appColors.white,
-    paddingTop: 128,
-    paddingBottom: 82,
+    paddingTop: 156,
+    paddingBottom: 100,
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -123,21 +120,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     ...globalStyles.textHeadline,
   },
-  toolbar: {
+  eventsList: {
     backgroundColor: appColors.white,
-    height: 60,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
-  textTitle: {
-    ...globalStyles.textTitle,
-  },
-  scrollContainer: {
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
+  firstItem: {
+    marginTop: 48,
   },
   loadingIndicator: {
     padding: 16,

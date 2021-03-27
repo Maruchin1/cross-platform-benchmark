@@ -4,10 +4,19 @@ import {appColors, globalStyles} from '../globalStyles';
 
 export type BottomNavOption = 'events' | 'messages' | 'department' | 'timeline';
 
-export const BottomNav = () => {
+interface InputData {
+  onOptionChange: (option: BottomNavOption) => void;
+}
+
+export const BottomNav = ({onOptionChange}: InputData) => {
   const [selectedOption, setSelectedOption] = useState<BottomNavOption>(
     'events',
   );
+
+  const onOptionClicked = (option: BottomNavOption) => {
+    setSelectedOption(option);
+    onOptionChange(option);
+  };
 
   const Option = ({option, text}: {option: BottomNavOption; text: string}) => {
     return (
@@ -15,7 +24,7 @@ export const BottomNav = () => {
         activeOpacity={0.6}
         underlayColor={appColors.grey400}
         style={styles.option}
-        onPress={() => setSelectedOption(option)}>
+        onPress={() => onOptionClicked(option)}>
         <Text
           style={
             option === selectedOption

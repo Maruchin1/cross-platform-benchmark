@@ -9,8 +9,8 @@
  */
 
 import React from 'react';
-import {EventsPage} from './app/events/EventsPage';
 import {Platform, UIManager} from 'react-native';
+import {Tabs} from './app/Tabs';
 
 if (
   Platform.OS === 'android' &&
@@ -20,7 +20,7 @@ if (
 }
 
 const App = () => {
-  return <EventsPage />;
+  return <Tabs />;
 };
 
 export default App;

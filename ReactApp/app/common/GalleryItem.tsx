@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   image: {
-    width: 200,
+    width: 150,
     aspectRatio: 3 / 4,
     backgroundColor: appColors.grey300,
   },
