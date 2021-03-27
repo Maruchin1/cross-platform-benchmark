@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { TabsPage } from './tabs.page';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {TabsPage} from './tabs.page';
 
 const routes: Routes = [
   {
@@ -13,11 +13,15 @@ const routes: Routes = [
       },
       {
         path: 'messages',
-        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+        loadChildren: () => import('../messages/messages.module').then(m => m.MessagesPageModule)
       },
       {
         path: 'department',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        loadChildren: () => import('../department/department.module').then(m => m.DepartmentPageModule)
+      },
+      {
+        path: 'timeline',
+        loadChildren: () => import('../timeline/timeline.module').then(m => m.TimelinePageModule)
       },
       {
         path: '',
@@ -36,4 +40,5 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule {
+}

@@ -1,8 +1,7 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {EventsService} from '../core/events.service';
 import {Observable} from 'rxjs';
 import {Event} from '../core/event.model';
-import {IonContent} from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -14,8 +13,6 @@ export class EventsPage {
     private eventsService: EventsService
   ) {
   }
-
-  @ViewChild('content', {static: true}) ionContent: IonContent;
 
   events$: Observable<Event[]> = this.eventsService.events$;
 
