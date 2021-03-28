@@ -1,28 +1,34 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/model/event.dart';
 import 'package:flutter_app/repository/local_database.dart';
 import 'package:flutter_app/repository/web_api.dart';
 
-class Repository {
+class Repository extends ChangeNotifier {
   final pageSize = 20;
   final WebApi webApi;
   final LocalDatabase localDatabase;
 
+  List<Event> _events = [];
   int _currentPageNumber = 0;
 
-  Repository(this.webApi, this.localDatabase);
-
-  Future<List<Event>> getEvents() {
-    return localDatabase.events();
+  Repository(this.webApi, this.localDatabase) {
+    loadMoreEvents();
   }
 
-  Future<bool> loadMoreEvents() async {
-    final events = await _getNextEventsPage();
+  List<Event> getEvents() {
+    return _events;
+  }
+
+  Future<void> purge() async {
+    await localDatabase.deleteEvents();
+  }
+
+  Future<void> loadMoreEvents() async {
+    final loadedEvents = await _getNextEventsPage();
     _currentPageNumber++;
-    if (events.isEmpty) {
-      return false;
-    } else {
-      await localDatabase.insertEvents(events);
-      return true;
+    if (loadedEvents.isNotEmpty) {
+      await localDatabase.insertEvents(loadedEvents);
+      await _refreshEvents();
     }
   }
 
@@ -31,7 +37,10 @@ class Repository {
     return webApi.getEventsPage(nextPageNumber, pageSize);
   }
 
-  Future<void> purge() async {
-    await localDatabase.deleteEvents();
+  Future<void> _refreshEvents() async {
+    final eventsFromDb = await localDatabase.events();
+    _events.clear();
+    _events.addAll(eventsFromDb);
+    notifyListeners();
   }
 }
