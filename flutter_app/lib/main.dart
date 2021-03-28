@@ -8,7 +8,7 @@ import 'package:http/http.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'main_container.dart';
+import 'tabs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.grey.shade50),
       home: ChangeNotifierProvider(
         create: (context) => _createRepository(database),
-        child: MainContainer(),
+        child: Tabs(),
       ),
     );
   }
@@ -59,6 +59,10 @@ class MyApp extends StatelessWidget {
 class CustomTextTheme {
   static TextStyle title(BuildContext context) {
     return Theme.of(context).textTheme.subtitle1.copyWith(fontSize: 20);
+  }
+
+  static TextStyle body(BuildContext context) {
+    return Theme.of(context).textTheme.caption.copyWith(color: Colors.black);
   }
 }
 

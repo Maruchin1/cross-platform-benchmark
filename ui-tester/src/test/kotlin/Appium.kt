@@ -1,5 +1,3 @@
-package android_framework
-
 import io.appium.java_client.MobileElement
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.remote.AutomationName
@@ -9,16 +7,21 @@ import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyE
 import org.openqa.selenium.Platform
 import org.openqa.selenium.remote.DesiredCapabilities
 
-class AppiumAndroid {
+class Appium {
     private lateinit var service: AppiumDriverLocalService
-    lateinit var driver: AndroidDriver<MobileElement>
+    lateinit var androidDriver: AndroidDriver<MobileElement>
 
-    fun setup(appFileName: String) {
+    fun startService() {
         service = AppiumDriverLocalService.buildDefaultService()
         service.start()
-        if (!service.isRunning) {
-            throw AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started")
-        }
+    }
+
+    fun stopService() {
+        service.stop()
+    }
+
+    fun launchAndroidApp(appFileName: String) {
+        checkServiceIsRunning()
         val capabilities = DesiredCapabilities().apply {
             setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID)
             setCapability(MobileCapabilityType.PLATFORM_VERSION, "9")
@@ -29,12 +32,16 @@ class AppiumAndroid {
             )
             setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2)
         }
-        driver = AndroidDriver(service.url, capabilities)
+        androidDriver = AndroidDriver(service.url, capabilities)
     }
 
-    fun clear() {
-        driver.quit()
-        service.stop()
+    fun quitAndroidApp() {
+        androidDriver.quit()
     }
 
+    private fun checkServiceIsRunning() {
+        if (!service.isRunning) {
+            throw AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started")
+        }
+    }
 }

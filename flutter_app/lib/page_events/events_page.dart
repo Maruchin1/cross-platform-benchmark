@@ -19,23 +19,16 @@ class EventsPage extends StatelessWidget {
       scrollDirection: scrollDirection,
       controller: controller,
       slivers: [
-        SliverAppBar(
-            backgroundColor: theme.backgroundColor,
-            floating: false,
-            pinned: false,
-            expandedHeight: 300,
-            flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.pin,
-              background: Padding(
-                padding: EdgeInsets.only(top: 132),
-                child: Text(
-                  "25-lecie\nWydziału Grafiki\ni Sztuki Mediów",
-                  textAlign: TextAlign.center,
-                  style:
-                      theme.textTheme.headline4.copyWith(color: Colors.black),
-                ),
-              ),
-            )),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.only(top: 156, bottom: 100),
+            child: Text(
+              "25-lecie\nWydziału Grafiki\ni Sztuki Mediów",
+              textAlign: TextAlign.center,
+              style: theme.textTheme.headline4.copyWith(color: Colors.black),
+            ),
+          ),
+        ),
         SliverAppBar(
           backgroundColor: theme.backgroundColor,
           floating: false,
@@ -45,6 +38,9 @@ class EventsPage extends StatelessWidget {
             style: CustomTextTheme.title(context),
           ),
           centerTitle: true,
+        ),
+        SliverToBoxAdapter(
+          child: SizedBox(height: 48),
         ),
         EventsList(controller)
       ],
