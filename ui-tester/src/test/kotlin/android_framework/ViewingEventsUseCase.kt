@@ -9,13 +9,9 @@ import io.appium.java_client.touch.offset.PointOption
 import org.openqa.selenium.Dimension
 import java.time.Duration
 
-class ViewingEventsUseCase(
-    private val driver: AndroidDriver<MobileElement>,
-    targetName: String,
-    packageName: String
-) {
+class ViewingEventsUseCase(targetName: String, packageName: String) {
     companion object {
-        const val OPENED_EVENTS = 10
+        const val OPENED_EVENTS = 100
         const val SCROLLS_BETWEEN_OPENED_EVENTS = 3
 
         const val INITIAL_TIME = 5_000L
@@ -24,42 +20,43 @@ class ViewingEventsUseCase(
         const val SCROLL_DURATION = 500L
     }
 
-    private val androidUtils = AndroidUtils(targetName, packageName)
+    private val dataExtractor = AndroidDataExtractor(targetName)
+    private val androidUtils = AndroidUtils(dataExtractor, packageName)
 
-    fun execute() {
+    fun execute(driver: AndroidDriver<MobileElement>) {
         androidUtils.run {
-            dumpsysBatteryStatsReset()
-            startVmStat(calculateExecutionTimeSeconds())
+            resetRamStats()
+            resetBatteryStats()
+            startCpuStats(calculateExecutionTimeSeconds())
         }
         Thread.sleep(INITIAL_TIME)
         repeat(OPENED_EVENTS) {
             repeat(SCROLLS_BETWEEN_OPENED_EVENTS) {
-                scrollDown()
+                driver.scrollDown()
                 Thread.sleep(SCROLL_INTERVAL)
             }
-            openItem()
+            driver.openItem()
             Thread.sleep(READING_TIME)
         }
         androidUtils.run {
-            stopVmStat()
-            dumpSysGfxInfo()
-            dumpsysBatteryStats()
+            stopCpuStats()
+            saveFramesStats()
+            saveRamStats()
+            saveBatteryStats()
             uninstallApp()
         }
+        dataExtractor.extractDataAndSave()
     }
 
-    private fun scrollDown() {
-        val dimension: Dimension = driver.manage().window().size
+    private fun AndroidDriver<MobileElement>.scrollDown() {
+        val dimension: Dimension = manage().window().size
         val scrollStart = dimension.getHeight() * 0.9
         val scrollEnd = dimension.getHeight() * 0.4
-        scrollVertically(
-            yStart = scrollStart.toInt(),
-            yEnd = scrollEnd.toInt()
-        )
+        scrollVertically(yStart = scrollStart.toInt(), yEnd = scrollEnd.toInt())
     }
 
-    private fun scrollVertically(yStart: Int, yEnd: Int) {
-        AndroidTouchAction(driver as PerformsTouchActions)
+    private fun AndroidDriver<MobileElement>.scrollVertically(yStart: Int, yEnd: Int) {
+        AndroidTouchAction(this as PerformsTouchActions)
             .press(PointOption.point(0, yStart))
             .waitAction(WaitOptions.waitOptions(Duration.ofMillis(SCROLL_DURATION)))
             .moveTo(PointOption.point(0, yEnd))
@@ -67,15 +64,15 @@ class ViewingEventsUseCase(
             .perform()
     }
 
-    private fun openItem() {
-        val dimension: Dimension = driver.manage().window().size
+    private fun AndroidDriver<MobileElement>.openItem() {
+        val dimension: Dimension = manage().window().size
         val xCenter = dimension.getWidth() * 0.5
         val yFirst = dimension.getHeight() * 0.3
         clickAtPoint(x = xCenter.toInt(), y = yFirst.toInt())
     }
 
-    private fun clickAtPoint(x: Int, y: Int) {
-        AndroidTouchAction(driver as PerformsTouchActions)
+    private fun AndroidDriver<MobileElement>.clickAtPoint(x: Int, y: Int) {
+        AndroidTouchAction(this as PerformsTouchActions)
             .press(PointOption.point(x, y))
             .release()
             .perform()

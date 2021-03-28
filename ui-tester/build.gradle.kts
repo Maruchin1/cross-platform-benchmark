@@ -14,15 +14,13 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.appium:java-client:7.5.0")
-    implementation("io.github.testsigma-eng:appium-flutterfinder-java:0.1.1")
-    testImplementation(kotlin("test-junit"))
     testImplementation("com.github.appium:java-client:7.5.0")
-    testImplementation("io.github.testsigma-eng:appium-flutterfinder-java:0.0.4")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
 }
 
 tasks.test {
-    useJUnit()
+    useJUnitPlatform()
 }
 
 tasks.withType<KotlinCompile>() {

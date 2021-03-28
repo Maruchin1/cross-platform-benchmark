@@ -1,34 +1,43 @@
 package android_tests
 
-import android_framework.AppiumAndroid
+import Appium
 import android_framework.ViewingEventsUseCase
-import org.junit.AfterClass
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.*
 
 class AndroidNativeTest {
     companion object {
-        private val appium = AppiumAndroid()
+        private val appium = Appium()
 
-        @BeforeClass
+        private val useCase = ViewingEventsUseCase(
+            targetName = "AndroidNative",
+            packageName = "com.example.android_app"
+        )
+
+        @BeforeAll
         @JvmStatic
-        fun beforeClass() {
-            appium.setup("android-native-debug.apk")
+        fun beforeAll() {
+            appium.startService()
         }
 
-        @AfterClass
+        @AfterAll
         @JvmStatic
-        fun afterClass() {
-            appium.clear()
+        fun afterAll() {
+            appium.stopService()
         }
+    }
+
+    @BeforeEach
+    fun beforeEach() {
+        appium.launchAndroidApp("android-native-debug.apk")
+    }
+
+    @AfterEach
+    fun afterEach() {
+        appium.quitAndroidApp()
     }
 
     @Test
     fun test() {
-        ViewingEventsUseCase(
-            driver = appium.driver,
-            targetName = "AndroidNative",
-            packageName = "com.example.android_app"
-        ).execute()
+        useCase.execute(appium.androidDriver)
     }
 }

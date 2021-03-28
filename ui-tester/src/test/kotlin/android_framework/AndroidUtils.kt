@@ -1,48 +1,58 @@
 package android_framework
 
-import java.io.File
 
 class AndroidUtils(
-    private val target: String,
+    private val dataExtractor: AndroidDataExtractor,
     private val packageName: String,
 ) {
 
-    private val resultDir: File by lazy {
-        File("results").apply { if (!exists()) mkdir() }
-    }
-
     private lateinit var vmStat: Process
 
-    fun startVmStat(monitoringTimeSeconds: Long) {
+    fun startCpuStats(monitoringTimeSeconds: Long) {
         vmStat = ProcessBuilder()
             .command("adb", "shell", "vmstat", "1", monitoringTimeSeconds.toString())
-            .redirectOutput(newVmStatFile())
+            .redirectOutput(dataExtractor.cpuStatsFile)
             .start()
     }
 
-    fun stopVmStat() {
+    fun stopCpuStats() {
         vmStat.destroy()
     }
 
-    fun dumpSysGfxInfo() {
+    fun saveFramesStats() {
         ProcessBuilder()
             .command("adb", "shell", "dumpsys", "gfxinfo", packageName)
-            .redirectOutput(newDumpSysGfxInfoFile())
+            .redirectOutput(dataExtractor.frameStatsFile)
             .start()
             .waitFor()
     }
 
-    fun dumpsysBatteryStatsReset() {
+    fun resetRamStats() {
+        ProcessBuilder()
+            .command("adb", "shell", "dumpsys", "procstats", "--reset")
+            .start()
+            .waitFor()
+    }
+
+    fun saveRamStats() {
+        ProcessBuilder()
+            .command("adb", "shell", "dumpsys", "procstats", "--hours", "1", packageName)
+            .redirectOutput(dataExtractor.ramStatsFile)
+            .start()
+            .waitFor()
+    }
+
+    fun resetBatteryStats() {
         ProcessBuilder()
             .command("adb", "shell", "dumpsys", "batterystats", "--reset")
             .start()
             .waitFor()
     }
 
-    fun dumpsysBatteryStats() {
+    fun saveBatteryStats() {
         ProcessBuilder()
             .command("adb", "shell", "dumpsys", "batterystats", packageName)
-            .redirectOutput(newDumpSysBatteryStatsFile())
+            .redirectOutput(dataExtractor.batteryStatsFile)
             .start()
             .waitFor()
     }
@@ -52,23 +62,5 @@ class AndroidUtils(
             .command("adb", "uninstall", packageName)
             .start()
             .waitFor()
-    }
-
-    private fun newVmStatFile(): File {
-        val timestamp = System.currentTimeMillis()
-        val fileName = "vmstat_${target}_${timestamp}.txt"
-        return File(resultDir, fileName).apply { createNewFile() }
-    }
-
-    private fun newDumpSysGfxInfoFile(): File {
-        val timestamp = System.currentTimeMillis()
-        val fileName = "gfxinfo_${target}_${timestamp}.txt"
-        return File(resultDir, fileName).apply { createNewFile() }
-    }
-
-    private fun newDumpSysBatteryStatsFile(): File {
-        val timestamp = System.currentTimeMillis()
-        val fileName = "batterystats_${target}_${timestamp}.txt"
-        return File(resultDir, fileName).apply { createNewFile() }
     }
 }

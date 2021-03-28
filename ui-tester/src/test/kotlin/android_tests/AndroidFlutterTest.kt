@@ -1,34 +1,43 @@
 package android_tests
 
-import android_framework.AppiumAndroid
+import Appium
 import android_framework.ViewingEventsUseCase
-import org.junit.AfterClass
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.*
 
 class AndroidFlutterTest {
     companion object {
-        private val appium = AppiumAndroid()
+        private val appium = Appium()
 
-        @BeforeClass
+        private val useCase = ViewingEventsUseCase(
+            targetName = "AndroidFlutter",
+            packageName = "com.example.flutter_app"
+        )
+
+        @BeforeAll
         @JvmStatic
-        fun beforeClass() {
-            appium.setup("android-flutter.apk")
+        fun beforeAll() {
+            appium.startService()
         }
 
-        @AfterClass
+        @AfterAll
         @JvmStatic
-        fun afterClass() {
-            appium.clear()
+        fun afterAll() {
+            appium.stopService()
         }
+    }
+
+    @BeforeEach
+    fun beforeEach() {
+        appium.launchAndroidApp("android-flutter.apk")
+    }
+
+    @AfterEach
+    fun afterEach() {
+        appium.quitAndroidApp()
     }
 
     @Test
     fun test() {
-        ViewingEventsUseCase(
-            driver = appium.driver,
-            targetName = "AndroidFlutter",
-            packageName = "com.example.flutter_app"
-        ).execute()
+        useCase.execute(appium.androidDriver)
     }
 }

@@ -1,34 +1,44 @@
 package android_tests
 
-import android_framework.AppiumAndroid
+import Appium
 import android_framework.ViewingEventsUseCase
-import org.junit.AfterClass
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.*
 
 class AndroidIonicTest {
     companion object {
-        private val appium = AppiumAndroid()
+        private val appium = Appium()
 
-        @BeforeClass
+        private val useCase = ViewingEventsUseCase(
+            targetName = "AndroidIonic",
+            packageName = "io.ionic.starter"
+        )
+
+        @BeforeAll
         @JvmStatic
-        fun beforeClass() {
-            appium.setup("android-ionic.apk")
+        fun beforeAll() {
+            appium.startService()
         }
 
-        @AfterClass
+        @AfterAll
         @JvmStatic
-        fun afterClass() {
-            appium.clear()
+        fun afterAll() {
+            appium.stopService()
         }
     }
 
+    @BeforeEach
+    fun beforeEach() {
+        appium.launchAndroidApp("android-ionic.apk")
+    }
+
+    @AfterEach
+    fun afterEach() {
+        appium.quitAndroidApp()
+    }
+
     @Test
+    @RepeatedTest(3)
     fun test() {
-        ViewingEventsUseCase(
-            driver = appium.driver,
-            targetName = "AndroidIonic",
-            packageName = "io.ionic.starter"
-        ).execute()
+        useCase.execute(appium.androidDriver)
     }
 }
