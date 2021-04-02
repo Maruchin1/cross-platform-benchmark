@@ -46,6 +46,15 @@ struct EventExpandedItem: View {
             .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
             .padding(.top, 24)
             .padding(.horizontal, 32)
+            ScrollView(.horizontal) {
+                HStack(spacing: 0) {
+                    ForEach(event.galleryImagesUrls, id: \.self) { imageUrl in
+                        GalleryItem(imageUrl: imageUrl)
+                    }
+                }
+            }
+            .frame(height: 200)
+            .padding(.bottom, 32)
         }
         .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .center)
     }
@@ -58,7 +67,11 @@ struct EventExpandedItem_Previews: PreviewProvider {
         date: "2021-03-11",
         place: "Lorem ipsum",
         description: "Lorem ipsum",
-        galleryImagesUrls: []
+        galleryImagesUrls: [
+            "https://picsum.photos/600/800",
+            "https://picsum.photos/600/800",
+            "https://picsum.photos/600/800",
+        ]
     )
     
     static var previews: some View {
