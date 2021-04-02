@@ -8,16 +8,23 @@
 import SwiftUI
 import URLImage
 
-struct EventItemView: View {
+struct EventCollapsedItem: View {
     var event: Event
     
     var body: some View {
         VStack {
-            URLImage(url: URL(string: event.imageUrl)!) { image in
-                image
-                    .resizable()
-                    .aspectRatio(CGSize(width: 4, height: 3), contentMode: .fit)
+            ZStack {
+                Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color("Grey400"))
+                Rectangle()
+                    .fill(Color("Grey300"))
+                URLImage(url: URL(string: event.imageUrl)!) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(CGSize(width: 4, height: 3), contentMode: .fit)
+                }
             }
+            .aspectRatio(CGSize(width: 4, height: 3), contentMode: .fit)
+            .overlay(Rectangle().frame(width: nil, height: 2, alignment: .bottom).foregroundColor(Color("Grey400")), alignment: .bottom)
             VStack(alignment: .leading) {
                 Text(event.name)
                     .font(.title2)
@@ -33,7 +40,7 @@ struct EventItemView: View {
         .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .center)
         .overlay(
             Rectangle()
-                .stroke(Color.gray, lineWidth: 2)
+                .stroke(Color("Grey400"), lineWidth: 2)
         )
     }
 }
@@ -50,6 +57,6 @@ struct EventItemView_Previews: PreviewProvider {
     )
     
     static var previews: some View {
-        EventItemView(event: event)
+        EventCollapsedItem(event: event)
     }
 }

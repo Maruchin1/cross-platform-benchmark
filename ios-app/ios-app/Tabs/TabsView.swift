@@ -11,26 +11,28 @@ struct TabsView: View {
     @StateObject var repository = Repository(webApi: WebApi())
     
     var body: some View {
-        TabView {
-            EventsPage<Repository>()
-                .tabItem {
-                    Text("wydarzenia")
-                }
-            MessagesPage()
-                .tabItem {
-                    Text("komuniakty")
-                }
-            DepartmentPage()
-                .tabItem {
-                    Text("wydział")
-                }
-            TimelinePage()
-                .tabItem {
-                    Text("25-lat")
-                }
+        GeometryReader { geometry in
+            TabView {
+                EventsPage<Repository>()
+                    .tabItem {
+                        Text("wydarzenia")
+                    }
+                MessagesPage()
+                    .tabItem {
+                        Text("komuniakty")
+                    }
+                DepartmentPage()
+                    .tabItem {
+                        Text("wydział")
+                    }
+                TimelinePage()
+                    .tabItem {
+                        Text("25-lat")
+                    }
+            }
+            .padding(.top, 1)
+            .environmentObject(repository)
         }
-        .edgesIgnoringSafeArea(.horizontal)
-        .environmentObject(repository)
     }
 }
 
