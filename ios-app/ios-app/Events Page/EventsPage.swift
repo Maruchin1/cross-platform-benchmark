@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct EventsPage: View {
-    @EnvironmentObject var repository: Repository
+struct EventsPage<T : RepositoryProtocol>: View {
+    @EnvironmentObject var repository: T
     
     var body: some View {
         List {
@@ -45,12 +45,20 @@ struct EventsPage: View {
                             leading: 0,
                             bottom: 0,
                             trailing: 0))
+            HStack{
+                Spacer()
+                Text("Loading ...")
+                    .onAppear(perform: {
+                        repository.loadNextEventsPage()
+                    })
+                Spacer()
+            }
         }
     }
 }
 
 struct EventsPage_Previews: PreviewProvider {
     static var previews: some View {
-        EventsPage().environmentObject(Repository())
+        EventsPage<RepositoryMock>().environmentObject(RepositoryMock())
     }
 }

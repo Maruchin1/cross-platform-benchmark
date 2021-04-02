@@ -15,7 +15,7 @@ object DI {
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("http://192.168.0.143:8080")
+            .baseUrl("http://192.168.8.157:8080")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

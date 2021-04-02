@@ -7,34 +7,27 @@
 
 import Foundation
 
-class Repository : ObservableObject {
+class Repository : RepositoryProtocol {
+    private let webApi: WebApi
     
     @Published var events: [Event]
     
     private var eventsPageNumber = 0
     
-    init() {
-        events = [
-            Repository.makeEventMock(id: 1),
-            Repository.makeEventMock(id: 2),
-            Repository.makeEventMock(id: 3),
-            Repository.makeEventMock(id: 4)
-        ]
+    init(webApi: WebApi) {
+        self.webApi = webApi
+        events = []
+        loadNextEventsPage()
     }
     
     func loadNextEventsPage() -> Void {
-        
-    }
-    
-    private static func makeEventMock(id: Int) -> Event {
-        return Event(
-            id: id,
-            imageUrl: "https://picsum.photos/800/600",
-            name: "Lorem ipsum",
-            date: "Lorem ipsum",
-            place: "",
-            description: "",
-            galleryImagesUrls: []
-        )
+        webApi.getEventsPage(pageNumber: eventsPageNumber + 1, pageSize: 20) { loadedEvents in
+            if !loadedEvents.isEmpty {
+                DispatchQueue.main.async {
+                    self.events.append(contentsOf: loadedEvents)
+                }
+                self.eventsPageNumber += 1
+            }
+        }
     }
 }
