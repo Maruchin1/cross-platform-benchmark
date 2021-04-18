@@ -11,7 +11,7 @@ import java.time.Duration
 
 class IOSViewingEventsUseCase {
     companion object {
-        const val OPENED_EVENTS = 3
+        const val OPENED_EVENTS = 100
         const val SCROLLS_BETWEEN_OPENED_EVENTS = 3
 
         const val INITIAL_TIME = 5_000L
@@ -35,16 +35,16 @@ class IOSViewingEventsUseCase {
 
     private fun IOSDriver<MobileElement>.scrollDown() {
         val dimension: Dimension = manage().window().size
-        val scrollStart = dimension.getHeight() * 0.9
-        val scrollEnd = dimension.getHeight() * 0.4
+        val scrollStart = dimension.getHeight() * 0.7
+        val scrollEnd = dimension.getHeight() * 0.2
         scrollVertically(yStart = scrollStart.toInt(), yEnd = scrollEnd.toInt())
     }
 
     private fun IOSDriver<MobileElement>.scrollVertically(yStart: Int, yEnd: Int) {
         IOSTouchAction(this as PerformsTouchActions)
-            .press(PointOption.point(0, yStart))
+            .press(PointOption.point(100, yStart))
             .waitAction(WaitOptions.waitOptions(Duration.ofMillis(SCROLL_DURATION)))
-            .moveTo(PointOption.point(0, yEnd))
+            .moveTo(PointOption.point(100, yEnd))
             .release()
             .perform()
     }

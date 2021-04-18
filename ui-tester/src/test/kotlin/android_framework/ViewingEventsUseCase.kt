@@ -21,14 +21,8 @@ class ViewingEventsUseCase(targetName: String, packageName: String) {
     }
 
     private val dataExtractor = AndroidDataExtractor(targetName)
-    private val androidUtils = AndroidUtils(dataExtractor, packageName)
 
     fun execute(driver: AndroidDriver<MobileElement>) {
-        androidUtils.run {
-            resetRamStats()
-            resetBatteryStats()
-            startCpuStats(calculateExecutionTimeSeconds())
-        }
         Thread.sleep(INITIAL_TIME)
         repeat(OPENED_EVENTS) {
             repeat(SCROLLS_BETWEEN_OPENED_EVENTS) {
@@ -38,14 +32,6 @@ class ViewingEventsUseCase(targetName: String, packageName: String) {
             driver.openItem()
             Thread.sleep(READING_TIME)
         }
-        androidUtils.run {
-            stopCpuStats()
-            saveFramesStats()
-            saveRamStats()
-            saveBatteryStats()
-            uninstallApp()
-        }
-        dataExtractor.extractDataAndSave()
     }
 
     private fun AndroidDriver<MobileElement>.scrollDown() {

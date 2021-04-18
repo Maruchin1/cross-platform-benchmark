@@ -2,6 +2,7 @@ import io.appium.java_client.MobileElement
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.ios.IOSDriver
 import io.appium.java_client.ios.IOSElement
+import io.appium.java_client.remote.AndroidMobileCapabilityType
 import io.appium.java_client.remote.AutomationName
 import io.appium.java_client.remote.MobileCapabilityType
 import io.appium.java_client.service.local.AppiumDriverLocalService
@@ -9,38 +10,26 @@ import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyE
 import org.openqa.selenium.Platform
 import org.openqa.selenium.remote.CapabilityType
 import org.openqa.selenium.remote.DesiredCapabilities
+import java.net.URL
 
 class Appium {
-    private lateinit var service: AppiumDriverLocalService
     lateinit var androidDriver: AndroidDriver<MobileElement>
     lateinit var iosDriver: IOSDriver<MobileElement>
 
-    fun startService() {
-        service = AppiumDriverLocalService.buildDefaultService()
-        service.start()
-    }
-
-    fun stopService() {
-        service.stop()
-    }
-
-    fun launchAndroidApp(appFileName: String) {
-        checkServiceIsRunning()
+    fun launchAndroidApp(packageName: String, activityName: String) {
         val capabilities = DesiredCapabilities().apply {
             setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID)
             setCapability(MobileCapabilityType.PLATFORM_VERSION, "9")
             setCapability(MobileCapabilityType.DEVICE_NAME, "9887bc433753424b4b")
-            setCapability(
-                MobileCapabilityType.APP,
-                "/Users/admin/Desktop/cross-platform-benchmark/bin/$appFileName"
-            )
+            setCapability(MobileCapabilityType.NO_RESET, true)
+//            setCapability(AndroidMobileCapabilityType.APP_PACKAGE, packageName)
+//            setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, activityName)
             setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2)
         }
-        androidDriver = AndroidDriver(service.url, capabilities)
+        androidDriver = AndroidDriver(capabilities)
     }
 
     fun launchIosApp(bundleId: String) {
-        checkServiceIsRunning()
         val capabilities = DesiredCapabilities().apply {
             setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.IOS)
             setCapability(MobileCapabilityType.PLATFORM_VERSION, "14.4")
@@ -54,7 +43,7 @@ class Appium {
 //            setCapability("useNewWDA", false)
             setCapability("updatedWDABundleId", "com.maruchin.WebDriverAgentRunner")
         }
-        iosDriver = IOSDriver(service.url, capabilities)
+        iosDriver = IOSDriver(capabilities)
     }
 
     fun quitAndroidApp() {
@@ -63,11 +52,5 @@ class Appium {
 
     fun quitIOSApp() {
         iosDriver.quit()
-    }
-
-    private fun checkServiceIsRunning() {
-        if (!service.isRunning) {
-            throw AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started")
-        }
     }
 }

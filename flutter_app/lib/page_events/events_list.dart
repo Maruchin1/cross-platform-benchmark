@@ -19,7 +19,7 @@ class EventsList extends StatefulWidget {
   }
 }
 
-class _EventsListState extends State<EventsList> with TickerProviderStateMixin {
+class _EventsListState extends State<EventsList> {
   final _scrollThreshold = 200.0;
   var _expandedItemPosition = -1;
   Repository _repository;
@@ -42,10 +42,7 @@ class _EventsListState extends State<EventsList> with TickerProviderStateMixin {
               key: ValueKey(index),
               controller: widget.controller,
               index: index,
-              child: AnimatedSizeAndFade(
-                vsync: this,
-                child: _getItem(events, index),
-              ),
+              child: _getItem(events, index),
             );
           }, childCount: _getItemsCount(events)),
         );

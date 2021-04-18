@@ -11,7 +11,7 @@ struct TabsView: View {
     @StateObject var repository = Repository(webApi: WebApi(), localDatabase: LocalDatabase())
     
     init() {
-        UITabBar.appearance().backgroundColor = UIColor(Color("Grey300"))
+        UITabBar.appearance().barTintColor = UIColor(Color("Grey300"))
     }
     
     var body: some View {

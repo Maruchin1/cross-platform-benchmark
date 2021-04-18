@@ -12,23 +12,14 @@ class AndroidReactTest {
             targetName = "AndroidReact",
             packageName = "com.reactapp"
         )
-
-        @BeforeAll
-        @JvmStatic
-        fun beforeAll() {
-            appium.startService()
-        }
-
-        @AfterAll
-        @JvmStatic
-        fun afterAll() {
-            appium.stopService()
-        }
     }
 
     @BeforeEach
     fun beforeEach() {
-        appium.launchAndroidApp("android-react.apk")
+        appium.launchAndroidApp(
+            packageName = "com.reactapp",
+            activityName = "MainActivity"
+        )
     }
 
     @AfterEach

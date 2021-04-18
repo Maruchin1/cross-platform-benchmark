@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class GalleryItem extends StatelessWidget {
@@ -19,7 +20,9 @@ class GalleryItem extends StatelessWidget {
           child: AspectRatio(
             aspectRatio: 3 / 4,
             child: SizedBox.expand(
-              child: Image.network(imageUrl),
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+              ),
             ),
           ),
         ),

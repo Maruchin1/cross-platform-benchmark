@@ -12,23 +12,11 @@ class AndroidNativeTest {
             targetName = "AndroidNative",
             packageName = "com.example.android_app"
         )
-
-        @BeforeAll
-        @JvmStatic
-        fun beforeAll() {
-            appium.startService()
-        }
-
-        @AfterAll
-        @JvmStatic
-        fun afterAll() {
-            appium.stopService()
-        }
     }
 
     @BeforeEach
     fun beforeEach() {
-        appium.launchAndroidApp("android-native-debug.apk")
+        appium.launchAndroidApp("android-native-debug.apk", "MainActivity")
     }
 
     @AfterEach

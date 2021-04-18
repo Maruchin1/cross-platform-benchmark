@@ -8,7 +8,7 @@
 import Foundation
 
 class WebApi {
-    private let baseUrl = "http://192.168.8.157:8080"
+    private let baseUrl = "http://192.168.8.158:8080"
     
     func getEventsPage(pageNumber: Int, pageSize: Int, onResult: @escaping ([Event]) -> Void) {
         let url = URL(string: baseUrl + "/events/page?pageNumber=\(pageNumber)&pageSize=\(pageSize)")!

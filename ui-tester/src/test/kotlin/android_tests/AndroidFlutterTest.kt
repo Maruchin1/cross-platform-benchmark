@@ -12,23 +12,11 @@ class AndroidFlutterTest {
             targetName = "AndroidFlutter",
             packageName = "com.example.flutter_app"
         )
-
-        @BeforeAll
-        @JvmStatic
-        fun beforeAll() {
-            appium.startService()
-        }
-
-        @AfterAll
-        @JvmStatic
-        fun afterAll() {
-            appium.stopService()
-        }
     }
 
     @BeforeEach
     fun beforeEach() {
-        appium.launchAndroidApp("android-flutter.apk")
+        appium.launchAndroidApp("android-flutter.apk", "MainActivity")
     }
 
     @AfterEach

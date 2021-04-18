@@ -12,23 +12,11 @@ class AndroidIonicTest {
             targetName = "AndroidIonic",
             packageName = "io.ionic.starter"
         )
-
-        @BeforeAll
-        @JvmStatic
-        fun beforeAll() {
-            appium.startService()
-        }
-
-        @AfterAll
-        @JvmStatic
-        fun afterAll() {
-            appium.stopService()
-        }
     }
 
     @BeforeEach
     fun beforeEach() {
-        appium.launchAndroidApp("android-ionic.apk")
+        appium.launchAndroidApp("android-ionic.apk", "MainActivity")
     }
 
     @AfterEach

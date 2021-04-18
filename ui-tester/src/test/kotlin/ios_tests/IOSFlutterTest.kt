@@ -10,18 +10,6 @@ class IOSFlutterTest {
 
         private val appium = Appium()
         private val useCase = IOSViewingEventsUseCase()
-
-        @BeforeAll
-        @JvmStatic
-        fun beforeAll() {
-            appium.startService()
-        }
-
-        @AfterAll
-        @JvmStatic
-        fun afterAll() {
-            appium.stopService()
-        }
     }
 
     @BeforeEach
