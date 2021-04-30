@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Event} from './event.model';
 import {HttpClient, HttpParams} from '@angular/common/http';
 
-const BASE_URL = 'http://192.168.8.158:8080';
+const BASE_URL = 'http://192.168.0.143:8080';
 
 @Injectable({providedIn: 'root'})
 export class WebApiService {

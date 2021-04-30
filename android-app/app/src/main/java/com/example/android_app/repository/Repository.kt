@@ -21,6 +21,12 @@ class Repository(
     private val _allEventsLoaded = MutableStateFlow(false)
     private var eventsPageNumber = 0
 
+    init {
+        GlobalScope.launch {
+            localDatabaseDao.deleteAll()
+        }
+    }
+
     fun getAllEvents(): Flow<List<Event>> {
         if (eventsPageNumber == 0) {
             loadNextEventsPage()

@@ -19,9 +19,8 @@ class Appium {
     fun launchAndroidApp(packageName: String, activityName: String) {
         val capabilities = DesiredCapabilities().apply {
             setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID)
-            setCapability(MobileCapabilityType.PLATFORM_VERSION, "9")
-            setCapability(MobileCapabilityType.DEVICE_NAME, "9887bc433753424b4b")
-            setCapability(MobileCapabilityType.NO_RESET, true)
+            setCapability(MobileCapabilityType.PLATFORM_VERSION, "10")
+            setCapability(MobileCapabilityType.DEVICE_NAME, "WCR7N18525020561")
 //            setCapability(AndroidMobileCapabilityType.APP_PACKAGE, packageName)
 //            setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, activityName)
             setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2)

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/model/event.dart';
 import 'package:http/http.dart';
 
-const AUTHORITY = '192.168.8.157:8080';
+const AUTHORITY = '192.168.0.143:8080';
 
 class WebApi {
   final Client httpClient;

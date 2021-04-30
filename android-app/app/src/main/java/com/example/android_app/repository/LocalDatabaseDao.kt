@@ -15,4 +15,7 @@ interface LocalDatabaseDao {
 
     @Query("SELECT * FROM events")
     fun getAllEvents(): Flow<List<Event>>
+
+    @Query("DELETE FROM events")
+    suspend fun deleteAll()
 }

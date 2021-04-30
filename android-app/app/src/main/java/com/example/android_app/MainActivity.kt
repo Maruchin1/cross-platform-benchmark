@@ -2,6 +2,7 @@ package com.example.android_app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.android_app.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -15,5 +16,6 @@ class MainActivity : AppCompatActivity() {
         setStatusBarColor(R.color.white)
         setNavigationBarColor(R.color.grey_300)
         BottomNavMediator(binding, supportFragmentManager)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 }
